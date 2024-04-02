@@ -1,0 +1,122 @@
+{
+  "navbar": {
+    "0": "Strona główna",
+    "1": "Promocje w Warszawie",
+    "2": "Dostawa i płatność",
+    "3": "O nas",
+    "4": "Kontact"
+  },
+  "place": "Warszawa",
+  "work-hours": {
+    "0": "Godziny pracy",
+    "1": "Ndz-Cz 12:00-22:00",
+    "2": "Ptn-Sb 12:00-23:00"
+  },
+  "category": {
+    "seasonal": "Sezonowe menu",
+    "rolls": "Rolki",
+    "sets": "Zestawy",
+    "baked": "Pieczone",
+    "sushi": "Sushi",
+    "cakes": "Ciasta sushi",
+    "futomaki": "Futomaki",
+    "salad": "Sałatki",
+    "bowl": "Bowl",
+    "lenten_menu": "Menu wegetariańskie",
+    "dessert": "Desery",
+    "drinks": "Napoje"
+  },
+
+  "footer": {
+    "logo": {
+      "politika": "Polityka Prywatności",
+      "statute": "Regulamin",
+      "order": "Otrzymywanie zamówień"
+    },
+    "nav": "Nawigacja",
+    "address": {
+      "title": "Adres",
+      "place": "Warszawa",
+      "geo": "***"
+    },
+    "social": {
+      "title": "Jesteśmy w mediach społecznościowych",
+      "payment": "Metody płatności"
+    }
+  },
+  "homeSlider": {
+    "title": "Poznaj nowe menu"
+  },
+  "deliveryInfo": {
+    "title": "Dostawa sushi Warszawa",
+    "first": "Za każdym razem, gdy ktoś zamawia sushi lub rolki, zwiększa się liczba szczęśliwych ludzi na świecie. Łatwo stać się szczęśliwym - wystarczy zamówić sushi w Warszawie.",
+    "second": "W naszym menu znajdziesz nie tylko pyszne i świeże sushi i rolki, ale także inne japońskie dania.",
+    "third": "W menu NeptunesSushi znajdują się klasyczne rolki i sushi (z rybą i ryżem lub z ryżem i owocami morza) oraz różne ich wariacje (pikantne, gorące, pieczone, wegetariańskie).",
+    "fourth": "Dostępne są wszystkie znane rodzaje sushi:",
+    "fifth": "Za najlepsze rolki sushi uważa się Philadelphia (klasyczne i różne warianty). Jest to potrawa z serka śmietankowego, ryby (my używamy filetów z delikatnego łososia nnorweskiego bez dołów) i ogórka. Takie połączenie sprawia, że danie to jest zaskakująco smaczne i delikatne.",
+    "sixth": "Na wierzchu znajduje się również California roll (w różnych wersjach).Jeśli nigdy wcześniej nie próbowaliście tego dania, spróbujcie zamówić rolkę sushi \"California\" z\noryginalnymi składnikami: łososiem, awokado i kawiorem latającej ryby. Mamy też opcje z krewetką i węgorzem.",
+    "points": {
+      "first": "Futomaki. Rolki te mają trójskładnikowe nadzienie. Nasi szefowie kuchni sushi starają się stosować takie połączenie składników, które nie tylko pozwala cieszyć się\nsmakiem potrawy, ale także daje piękne niuanse smakowe.",
+      "second": "Roll Dragons.",
+      "third": "Rolki z owocami morza.",
+      "fourth": "Gorące rolki. Przygotowywane są w taki sam sposób jak uramaki i futomaki, a dodatkowo smażone lub smażone w głębokim tłuszczu."
+    }
+  },
+  "deliveryAdvantage": {
+    "title": "Zalety usługi dostawy Neptunes sushi ",
+    "first": "Zamów sushi online w Warszawie i powiedz nam co Ci smakowało, a co nie. Pomóż nam stać się najlepszymi!",
+    "points": {
+      "first": "Wysoka jakość potraw. Używamy wyłącznie świeżych składników od zaufanych dostawców i nie przechowujemy ich w lodówce, tylko od razu przystępujemy do gotowania.",
+      "second": "Duże porcje. W Warszawie sushi można zamówić na różne spotkania, zarówno dla spokojnej, jak i dużej firmy.",
+      "third": "Dostępność otwartej kuchni.",
+      "fourth": "Dostępność promocji i rabatów.",
+      "fifth": "Wykwalifikowany personel.",
+      "sixth": "Możliwość złożenia zamówienia w przedsprzedaży.",
+      "seventh": "Szybka dostawa."
+    }
+  },
+  "promotions": {
+    "title": "Promocje w Warszawie",
+    "firstBanner": {
+      "title": "Przy odbierze osobistym dostaniesz 10% rabatu!",
+      "subtitle": "Odbierz swoje zamówienie z dowolnego punktu I uzyskaj zniżkę",
+      "btnText": "Więcej"
+    },
+    "secondBanner": {
+      "title": "Wszystkiego najlepszego!",
+      "subtitle": "10% rabatu na zamówionego urodzinowego chłopca w ciągu tygodnia",
+      "btnText": "Więcej"
+    }
+  },
+  "deliveryPageInfo": {
+    "title": "Informacja o dostawie w Warszawie",
+    "firstCard": {
+      "title": "Dostawa",
+      "heading": "10% oszczędności",
+      "subtitle": "Zamówienie można złożyć minimum 40 minut przed odbiorem. Przy odbiorze własnym dajemy 10% rabatu na każde zamówienie"
+    },
+    "secondCard": {
+      "title": "Opłata",
+      "heading": "Gotówką",
+      "subtitle": "Płatność gotówką u kuriera lub w restauracji przy odbiorze zamówienia."
+    },
+    "thirdCard": {
+      "heading": "Kartą",
+      "subtitle": "Macz możliwość zapłacić kartą na stronie internetowej (usługa dostępna dla kart: Visa, MasterCard) oraz kurierowi przy otrzymaniu"
+    }
+  },
+  "about": {
+    "title": "O nas",
+    "firstP": "***",
+    "secondP": "***",
+    "thirdP": "***",
+    "fourthP": "***",
+    "fifthP": "***"
+  },
+  "contacts": {
+    "title": "Kontakty w Warszawie",
+    "heading": "Adres",
+    "place": "***",
+    "phone": "Numer telefonu:"
+  }
+}
