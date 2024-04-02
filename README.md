@@ -3,3 +3,5 @@ npm install
 npm dev start
 
 Server will be started on localhost:3000
+
+In project we have .env file with ,,, variable that links to backend API
