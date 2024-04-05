@@ -1,0 +1,147 @@
+= TypeScript styles
+:toc:
+
+== Type inference
+Leave out type annotations for trivially inferred types: string, number, boolean, RegExp
+
+Bad:
+[source]
+----
+const a: boolean = true;
+const b: number = 5;
+const c: string = 'text';
+const [isActive, setIsActive] = useState<boolean>(false);
+----
+
+Good:
+[source]
+----
+const a = true;
+const b = 5;
+const c = 'text';
+const [isActive, setIsActive] = useState(false);
+----
+
+== Type can be narrowed
+Use explicit type declaration to narrow the type
+
+Bad:
+[source]
+----
+type UserRole = 'admin' | 'guest';
+const [userRole, setUserRole] = useState('admin'); // Type 'string'
+----
+
+Good:
+[source]
+----
+type UserRole = 'admin' | 'guest';
+const [userRole, setUserRole] = useState<UserRole>('admin'); // Type 'UserRole'
+----
+
+== Interface or Type
+Type can be used to name primitives, unions, tuples, and any other types.
+Use Interface when declaring types for objects
+
+Bad:
+[source]
+----
+interface UserRole = 'admin' | 'guest';
+type UserInfo {
+  name: string;
+  role: 'admin' | 'guest';
+}
+----
+
+Good:
+[source]
+----
+type UserRole = 'admin' | 'guest';
+interface UserInfo = {
+  name: string;
+  role: UserRole;
+};
+----
+
+== Type Naming
+Don’t use *prefix* and *postfix* in the type naming when to indicate `interface` or `type` or `enum`.
+
+Bad:
+[source]
+----
+interface IProps = {...};
+type UserRoleType = 'admin' | 'guest';
+enum EIconSize = {
+  small = 'small',
+  medium = 'medium',
+  large = 'large',
+};
+----
+
+Good:
+[source]
+----
+interface Props = {...};
+type UserRole = 'admin' | 'guest';
+enum IconSize = {  // prular, no prefix, no postfix, keys UPERCASE
+  SMALL = 'small',
+  MEDIUM = 'medium',
+  LARGE = 'large',
+};
+----
+
+== Placement of interfaces, types and enums
+There some tips for placement of interfaces, types and enums. Firs of all it depends how they are would be used.
+
+- Component Props:
+
+_If an interface is related to the props of a specific component, it is recommended to place it in the same file as the component itself._
+
+[source]
+----
+// MyComponent.tsx
+interface Props {
+// props definition
+}
+
+const MyComponent: React.FC<Props> = ({ /* props usage */ }) => {
+// component implementation
+};
+----
+
+- Component Types
+
+_If a type is specific to a particular component but used in multiple places within that component, consider creating a separate `types.ts` file to store such interfaces and types._
+
+[source]
+----
+// constants.ts
+interface ButtonSize = {
+  // button props definition
+};
+
+interface ButtonColor = {
+  // input props definition
+};
+----
+
+- Global Types:
+
+_If an interface or type can exist independently of a specific component and is used in various parts of the application, it is recommended to create a `types` folder at the project root._
+
+_Each file in this folder can be named according to the interface and contain the interface itself, along with any other types specific to that interface._
+
+[source]
+----
+// types/User.ts
+interface User {
+  // user interface definition
+}
+
+type UserId = string;
+----
+== Any
+Consider not to use `any`. In circumstances where you want to use `any`, consider one of:
+
+- provide a more specific type;
+- use unknown;

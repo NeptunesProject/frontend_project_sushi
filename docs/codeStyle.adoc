@@ -1,0 +1,408 @@
+= Code styles
+:toc:
+
+== Naming
+1. `function` -> verb.
+2. `object, primitive` -> noun singular, *except boolean*.
+3. `boolean` -> isSmth, hasSmth.
+4. `array` -> noun plural.
+5. `Filename`
+   - `Filename` -> use PascalCase for filenames.
+   - `File instance` -> use camelCase for their instances.
+6. `Component` -> use the filename as the component name. However, for root components of a directory, use _index.js_ as the filename and use the directory name as the component name.
+7. `Props` -> use camelCase for their instances.
+
+Don't use plural twice in naming like `tabsIds` -> `tabId`
+
+== Alignment
+Alignment is 2 spaces.
+
+Bad:
+[source]
+----
+<Foo superLongParam="bar"
+anotherSuperLongParam="baz" />
+----
+
+Good:
+[source]
+----
+<Foo
+  superLongParam="bar"
+  anotherSuperLongParam="baz"
+/>
+
+// if props fit in one line then keep it on the same line
+<Foo bar="bar" />
+
+// children get indented normally
+<Foo
+  superLongParam="bar"
+  anotherSuperLongParam="baz"
+>
+  <Quux />
+</Foo>
+----
+
+Bad
+[source]
+----
+{showButton &&
+<Button />
+}
+
+{
+  showButton &&
+    <Button />
+}
+----
+Good
+[source]
+----
+{showButton && (
+  <Button />
+)}
+
+{showButton && <Button />}
+
+{someReallyLongConditional
+  && anotherLongConditional
+  && (
+    <Foo
+    superLongParam="bar"
+    anotherSuperLongParam="baz"
+    />
+  )
+}
+----
+
+== Quotes
+Always use double quotes (") for JSX attributes, but single quotes (') for all other JS.
+
+Bad
+[source]
+----
+<Foo bar='bar' />
+
+<Foo style={{ left: "20px" }} />
+----
+Good
+[source]
+----
+<Foo bar="bar" />
+
+<Foo style={{ left: '20px' }} />
+----
+
+== Props
+
+- Always use camelCase for prop names, or PascalCase if the prop value is a React component.
+
+Bad
+[source]
+----
+<Foo
+  UserName="hello"
+  phone_number={12345678}
+/>
+----
+Good
+[source]
+----
+<Foo
+  userName="hello"
+  phoneNumber={12345678}
+  Component={SomeComponent}
+/>
+----
+
+- Omit the value of the prop when it is explicitly true
+
+Bad
+[source]
+----
+<Foo
+  hidden={true}
+/>
+----
+Good
+[source]
+----
+<Foo
+  hidden
+/>
+
+<Foo hidden />
+----
+
+- Omit the prop when it is explicitly false. Except, the situation when the default value of prop is true.
+
+Bad
+[source]
+----
+<Foo
+  hidden={false}
+/>
+----
+Good
+[source]
+----
+<Foo />
+----
+
+- Always include an alt prop on <img> tags. If the image is presentational, alt can be an empty string or the <img> must have role="presentation". Do not use words like "image", "photo", or "picture" in <img> alt props
+
+Bad
+[source]
+----
+<img src="hello.jpg" />
+
+<img src="hello.jpg" alt="Picture of me waving hello" />
+
+----
+Good
+[source]
+----
+<img src="hello.jpg" alt="Me waving hello" />
+
+<img src="hello.jpg" alt="" />
+
+<img src="hello.jpg" role="presentation" />
+
+<img src="hello.jpg" alt="Me waving hello" />
+----
+
+- Avoid using an array index as key prop, prefer a stable ID
+
+Bad
+[source]
+----
+{todos.map((todo, index) =>
+  <Todo
+    {...todo}
+    key={index}
+  />
+)}
+----
+Good
+[source]
+----
+{todos.map(todo => (
+  <Todo
+    {...todo}
+    key={todo.id}
+  />
+))}
+----
+
+- Always define explicit default props for all non-required props in function's arguments.
+
+Why? default props are a form of documentation, and providing it means the reader of your code doesn’t have to assume as much. In addition, it can mean that your code can omit certain type checks.
+
+Bad
+[source]
+----
+function SFC({ foo, bar, children }) {
+  return <div>{foo}{bar}{children}</div>;
+}
+
+SFC.propTypes = {
+  foo: PropTypes.number.isRequired,
+  bar: PropTypes.string,
+  children: PropTypes.node,
+};
+----
+Good
+[source]
+----
+function ComponentName({ foo, bar = '', children = '' }) {
+  return <div>{foo}{bar}{children}</div>;
+}
+
+ComponentName.propTypes = {
+  foo: PropTypes.number.isRequired,
+  bar: PropTypes.string,
+  children: PropTypes.node,
+};
+----
+
+- Move default params to the end.
+
+Bad
+[source]
+----
+fucntion Foo ({
+  size = "small",
+    type,
+  name,
+}) {
+...
+}
+----
+
+Good
+[source]
+----
+fucntion Foo ({
+  type,
+  name,
+  size = "small"
+}) {
+...
+}
+----
+
+- Don't use ternary operator or if else statement for return
+
+Bad
+[source]
+----
+fucntion Foo ({
+  size = "small"
+}) {
+  if (size === "small"){
+    return <span>small</span>
+  } else {
+    return <span>other</span>
+  }
+}
+
+fucntion Foo ({
+  size = "small"
+}) {
+  return size === "small" ? <span>small</span> : <span>other</span>
+}
+----
+
+Good
+[source]
+----
+fucntion Foo ({
+  size = "small"
+}) {
+  if (size = "small"){
+    return <span>small</span>
+  }
+
+  return <span>other</span>
+}
+----
+
+== Tags
+
+- Always self-close tags that have no children. eslint: react/self-closing-comp
+
+Bad
+[source]
+----
+<Foo variant="stuff"></Foo>
+----
+Good
+[source]
+----
+<Foo variant="stuff" />
+----
+
+- If your component has multiline properties, close its tag on a new line. eslint: react/jsx-closing-bracket-location
+
+Bad
+[source]
+----
+<Foo
+  bar="bar"
+  baz="baz" />
+----
+Good
+[source]
+----
+<Foo
+  bar="bar"
+  baz="baz"
+/>
+----
+
+- Don't use unnecessary brackets
+
+Bad
+[source]
+----
+<Foo
+  bar={"bar"}
+/>
+----
+Good
+[source]
+----
+<Foo
+  bar="bar"
+/>
+----
+
+== Methods
+
+- Use pure principals for functions it is relation for component function and HOKs too
+
+1. Predictable: It produces a predictable output for the same inputs.
+2. Readable: Anyone reading the function as a standalone unit can understand its purpose completely.
+3. Reusable: Can reuse the function at multiple places of the source code without altering it's and the caller's behavior.
+4. Testable: We can test it as an independent unit.
+
+- When function not consist of custom hooks or react hooks consolidate all structured logic inside ad move it to `utils/helper` folder near first usage or at first top parent if it's using on more than one place, or move to top `utils/helper` folder if path for the function go through top folder. footnote:disclaimer[1]
+
+- Pass parameter to function like one object
+
+[source]
+----
+fucntion Foo ({
+  name,
+  sureName,
+  age
+}) {
+...
+}
+----
+
+- Name of util function mus describe an action, verb and with result.
+
+[source]
+----
+const makeFullUserName = (
+  name,
+  sureName
+) => {
+  return `${sureName} ${name}`;
+}
+----
+
+== Hooks
+
+- Don't use hook inside pure function.
+
+- Consolidate logic for component inside hook for component, make component with calling hooks and returning render function.
+
+- Highlight common logic for more than one component, create custom hook and move the hook to `hooks` folder guided by the same rule of `utils/helper`. footnote:disclaimer[1]
+
+== HOKs
+
+- Try to get rid to using HOKs
+
+== import/exports
+
+- Don’t use reexport. Don’t create index files with content https://t.me/iamakulov_channel/559[link].
+
+- Use absolute path when import path has more than 2 pointers to the parent
+
+Bad
+[source]
+----
+import Fn from '../../../ParentComponent/Component/utils/fn'
+----
+Good
+[source]
+----
+import Fn from 'src/components/ParentComponent/Component/utils/fn'
+----
+
+== Extend rule
+
+#IMPORTANT:# If team will decide to use or change existing rule, the new rule must be added to this file and be using from the added day, otherwise rule not exist.

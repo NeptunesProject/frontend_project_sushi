@@ -1,0 +1,37 @@
+= Branch and Pull Requests Naming
+
+== Branches
+
+
+All new branches must be created from main.
+
+Branch naming formats:
+
+For new features: feature/T1-46-short-title
+
+For bugfixes: bugfix/T1-46-short-title
+
+For hotfixes: hotfix/T1-46-hotfix-description
+
+At the end of the workday, regardless of whether the task is completed, it is necessary to commit and push all of your changes, even if they are not going to be merged into the main branch of the ticket
+
+== Commits
+
+Every commit message except merge commits should start with ID of related JIRA ticket, e.g.
+
+Commit message example:
+
+Some descriptive message
+
+== Pull Requests
+
+Pull request title should start with the ID of related JIRA ticket.
+
+Pull Request title example:
+
+T1-46: feature or bug short description
+
+Pull request description should contain:
+
+short description of issues/features addressed (e.g. "implemented some feature related to....", "fixed a bug in some component...." etc)
+(optionally) screenshots or other stuff that you may find appropriate, illustrative and that may help to review the PR
