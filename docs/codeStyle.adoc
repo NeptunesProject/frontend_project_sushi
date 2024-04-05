@@ -400,7 +400,7 @@ import Fn from '../../../ParentComponent/Component/utils/fn'
 Good
 [source]
 ----
-import Fn from 'src/compoents/ParentComponent/Component/utils/fn'
+import Fn from 'src/components/ParentComponent/Component/utils/fn'
 ----
 
 == Extend rule
