@@ -12,9 +12,15 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-import { BasketTypes } from '../../types'
+import { BasketTypes, Product } from '../../types'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import InfoToPay from './InfoToPay'
+import {
+  useAdditionalProductsContext,
+  useBasketContext,
+} from 'contexts/BasketContext'
+import { DeliveryType, PaymentType } from '../../types'
+import usePostOrder from 'hooks/usePostOrder'
 
 interface Props {
   setSelectedBasketType: React.Dispatch<React.SetStateAction<BasketTypes>>
@@ -25,6 +31,34 @@ const DeliveryForm = ({ setSelectedBasketType }: Props) => {
   const [phoneNumber, setPhoneNumber] = useState('')
   const [deliveryType, setDeliveryType] = useState('self')
   const [street, setStreet] = useState('')
+  const { products } = useBasketContext()
+  const cartItems = getCartItems(products)
+  const postOrderMutation = usePostOrder()
+  const { personCount, sticks } = useAdditionalProductsContext()
+  const sticksCount = personCount - sticks
+
+  const orderData = {
+    toDateTime: new Date().toJSON(),
+    clientInfo: {
+      phoneNumber,
+      name,
+    },
+    deliveryAddress: {
+      clientAddress: street,
+    },
+    comment: 'Leave at the door.',
+    peopleCount: personCount,
+    sticksCount,
+    studySticksCount: sticks,
+    cartItems,
+    deliveryType: DeliveryType.delivery,
+    paymentType: PaymentType.online,
+  }
+
+  const handleSubmitOrder = () => {
+    setSelectedBasketType('delivery')
+    postOrderMutation.mutate(orderData)
+  }
   return (
     <>
       <DrawerHeader
@@ -99,7 +133,7 @@ const DeliveryForm = ({ setSelectedBasketType }: Props) => {
             borderColor="turquoise.77"
             bg="none"
             borderRadius={25}
-            onClick={() => setSelectedBasketType('delivery')}
+            onClick={handleSubmitOrder}
           >
             Continue
           </Button>
@@ -110,3 +144,10 @@ const DeliveryForm = ({ setSelectedBasketType }: Props) => {
 }
 
 export default DeliveryForm
+
+const getCartItems = (list: Product[]) => {
+  return list.map((item) => ({
+    id: item.id,
+    quantity: item.count || 0,
+  }))
+}

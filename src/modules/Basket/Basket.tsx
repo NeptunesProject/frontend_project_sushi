@@ -1,5 +1,5 @@
 import {
-  Box,
+  // Box,
   Center,
   Drawer,
   DrawerContent,
@@ -14,10 +14,11 @@ import { useState } from 'react'
 import { useBasketContext } from '../../contexts/BasketContext'
 
 const Basket = () => {
-  const [selectedBaketType, setSelectedBasketType] =
+  const [selectedBasketType, setSelectedBasketType] =
     useState<BasketTypes>('basket')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { productsCount } = useBasketContext()
+  
   return (
     <>
       <Center
@@ -56,10 +57,10 @@ const Basket = () => {
         size="sm"
       >
         <DrawerContent>
-          {selectedBaketType === 'basket' && (
+          {selectedBasketType === 'basket' && (
             <BasketType setSelectedBasketType={setSelectedBasketType} />
           )}
-          {selectedBaketType === 'delivery' && (
+          {selectedBasketType === 'delivery' && (
             <DeliveryForm setSelectedBasketType={setSelectedBasketType} />
           )}
         </DrawerContent>

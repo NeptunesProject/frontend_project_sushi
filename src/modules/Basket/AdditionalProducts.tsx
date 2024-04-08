@@ -1,10 +1,14 @@
 import React from 'react'
 import { Flex, Text } from '@chakra-ui/react'
 import CountButton from '../../ui/CountButton'
+import { useAdditionalProductsContext } from 'contexts/BasketContext'
 
 const AdditionalProducts = () => {
-  const [personCount, setPersonCount] = React.useState(1)
-  const [sticks, setSticks] = React.useState(0)
+  //const [personCount, setPersonCount] = React.useState(1)
+  //const [sticks, setSticks] = React.useState(0)
+
+  const { personCount, sticks, setCount } = useAdditionalProductsContext()
+
   return (
     <Flex flexDir="column" fontWeight={600} gap={3}>
       <Flex w="100%" justify="space-between">
@@ -17,7 +21,7 @@ const AdditionalProducts = () => {
             onClick={(e) => {
               e.preventDefault()
               if (personCount > 1) {
-                setPersonCount((prev) => prev - 1)
+                setCount('personCount', personCount - 1)
               }
             }}
           >
@@ -33,7 +37,7 @@ const AdditionalProducts = () => {
             borderLeftRadius={5}
             onClick={(e) => {
               e.preventDefault()
-              setPersonCount((prev) => prev + 1)
+              setCount('personCount', personCount + 1)
             }}
           >
             +
@@ -51,7 +55,7 @@ const AdditionalProducts = () => {
             onClick={(e) => {
               e.preventDefault()
               if (sticks > 0) {
-                setSticks((prev) => prev - 1)
+                setCount('sticks', sticks - 1)
               }
             }}
           >
@@ -67,7 +71,7 @@ const AdditionalProducts = () => {
             borderLeftRadius={5}
             onClick={(e) => {
               e.preventDefault()
-              setSticks((prev) => prev + 1)
+              setCount('sticks', sticks + 1)
             }}
           >
             +

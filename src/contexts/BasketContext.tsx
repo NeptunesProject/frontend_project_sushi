@@ -1,6 +1,7 @@
 import { Product } from '../types'
 import {
-  createContext, ReactNode,
+  createContext,
+  ReactNode,
   useCallback,
   useContext,
   useEffect,
@@ -20,6 +21,13 @@ interface BasketContextState {
   productsCount: number
 }
 
+interface AdditionalProductsContextState {
+  personCount: number
+  sticks: number
+  studySticksCount: number
+  setCount: (type: keyof AdditionalProductsContextState, count: number) => void
+}
+
 interface BasketDispatchContextState {
   addProduct: (product: Product, count?: number) => void
   removeProduct: (product: Product) => void
@@ -31,6 +39,10 @@ const BasketContext = createContext<BasketContextState>(
   {} as BasketContextState,
 )
 
+const AdditionalProductsContext = createContext<AdditionalProductsContextState>(
+  {} as AdditionalProductsContextState,
+)
+
 const ProductsDispatchContext = createContext<BasketDispatchContextState>(
   {} as BasketDispatchContextState,
 )
@@ -40,6 +52,18 @@ const useBasketContext = () => {
 
   if (!Object.keys(context).length) {
     throw new Error('useProductsContext must be used within a ProductsProvider')
+  }
+
+  return context
+}
+
+const useAdditionalProductsContext = () => {
+  const context = useContext(AdditionalProductsContext)
+
+  if (!Object.keys(context).length) {
+    throw new Error(
+      'useAdditionalProductsContext must be used within a ProductsProvider',
+    )
   }
 
   return context
@@ -163,7 +187,6 @@ const BasketProvider = ({ children }: { children: ReactNode }) => {
     }),
     [addProduct, deleteProduct, removeProduct, isProductAdded],
   )
-
   return (
     <BasketContext.Provider value={contextValue}>
       <ProductsDispatchContext.Provider value={contextDispatchValue}>
@@ -172,5 +195,40 @@ const BasketProvider = ({ children }: { children: ReactNode }) => {
     </BasketContext.Provider>
   )
 }
+const AdditionalProductsProvider = ({ children }: { children: ReactNode }) => {
+  const [additionalProducts, setAdditionalProducts] =
+    useState<AdditionalProductsContextState>({
+      personCount: 1,
+      sticks: 0,
+      studySticksCount: 0,
+      setCount: () => {},
+    })
 
-export { useBasketContext, useBasketDispatchContext, BasketProvider }
+  const setCount = useCallback(
+    (type: keyof AdditionalProductsContextState, count: number) => {
+      setAdditionalProducts((prevState) => ({
+        ...prevState,
+        [type]: count,
+      }))
+    },
+    [],
+  )
+
+  const contextValue = useMemo(
+    () => ({ ...additionalProducts, setCount }),
+    [additionalProducts, setCount],
+  )
+  return (
+    <AdditionalProductsContext.Provider value={contextValue}>
+      {children}
+    </AdditionalProductsContext.Provider>
+  )
+}
+
+export {
+  useBasketContext,
+  useBasketDispatchContext,
+  BasketProvider,
+  useAdditionalProductsContext,
+  AdditionalProductsProvider,
+}

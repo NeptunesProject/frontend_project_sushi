@@ -27,6 +27,7 @@ interface Product {
   cartCount: number
   sort: number
   box: number
+  count?: number
 }
 
 interface Category {
@@ -46,4 +47,48 @@ interface ChakraFactoryComponent {
 
 type BasketTypes = 'basket' | 'delivery' | 'pay'
 
-export type { Languages, Product, ChakraFactoryComponent, BasketTypes, Category }
+interface ClientInfo {
+  phoneNumber: string
+  name: string
+}
+
+interface DeliveryAddress {
+  clientAddress: string
+}
+
+interface CartItem {
+  id: number
+  quantity: number
+}
+
+export enum PaymentType {
+  cash = 'CASH',
+  terminal = 'TERMINAL',
+  online = 'ONLINE',
+}
+export enum DeliveryType {
+  delivery = 'DELIVERY',
+  pickup = 'PICKUP',
+}
+
+interface Order {
+  toDateTime: string
+  clientInfo: ClientInfo
+  deliveryAddress: DeliveryAddress
+  comment: string
+  peopleCount: number
+  cartItems: CartItem[]
+  sticksCount: number
+  studySticksCount: number
+  deliveryType: DeliveryType
+  paymentType: PaymentType
+}
+
+export type {
+  Languages,
+  Product,
+  ChakraFactoryComponent,
+  BasketTypes,
+  Category,
+  Order,
+}
