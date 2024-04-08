@@ -1,10 +1,21 @@
-import React from 'react'
+import {useEffect, useState} from 'react'
 import { Flex, Text } from '@chakra-ui/react'
 import CountButton from '../../ui/CountButton'
 
+
+
 const AdditionalProducts = () => {
-  const [personCount, setPersonCount] = React.useState(1)
-  const [sticks, setSticks] = React.useState(0)
+  const [personCount, setPersonCount] = useState(1)
+  const [sticks, setSticks] = useState(0)
+  let counters = {person: personCount, sticks: sticks};
+    
+  useEffect(() => {
+      localStorage.setItem('counters', JSON.stringify(counters))
+    }, [counters])
+   
+ 
+  
+
   return (
     <Flex flexDir="column" fontWeight={600} gap={3}>
       <Flex w="100%" justify="space-between">

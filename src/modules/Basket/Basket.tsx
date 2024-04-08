@@ -18,6 +18,9 @@ const Basket = () => {
     useState<BasketTypes>('basket')
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { productsCount } = useBasketContext()
+
+  if (!productsCount) return null;
+
   return (
     <>
       <Center

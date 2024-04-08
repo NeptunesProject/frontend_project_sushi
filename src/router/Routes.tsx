@@ -9,7 +9,6 @@ const Routes = () => {
   return (
     <>
       <ScrollToTop />
-
       <AnimatePresence mode="wait">
         <ReactRoutes location={location}>
           {ROUTER_CONFIG.map(({ path, component: Component }) => (
@@ -19,9 +18,11 @@ const Routes = () => {
               element={
                 <AnimatedAppearance>
                   <Component />
+                  
                 </AnimatedAppearance>
               }
             />
+            
           ))}
         </ReactRoutes>
       </AnimatePresence>

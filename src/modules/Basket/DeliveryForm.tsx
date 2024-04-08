@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Box,
   Button,
@@ -12,12 +12,19 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-import { BasketTypes } from '../../types'
+import { BasketTypes, Order } from '../../types'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import InfoToPay from './InfoToPay'
+import { addNewOrder } from "../../api/index";
+import { useBasketContext, useBasketDispatchContext } from 'contexts/BasketContext'
 
 interface Props {
   setSelectedBasketType: React.Dispatch<React.SetStateAction<BasketTypes>>
+}
+
+interface counter {
+  person: number
+  sticks: number
 }
 
 const DeliveryForm = ({ setSelectedBasketType }: Props) => {
@@ -25,6 +32,35 @@ const DeliveryForm = ({ setSelectedBasketType }: Props) => {
   const [phoneNumber, setPhoneNumber] = useState('')
   const [deliveryType, setDeliveryType] = useState('self')
   const [street, setStreet] = useState('')
+  let newOrd: Order ={
+    toDateTime: 0,
+    clientInfo: {
+      phoneNumber: '',
+      name: ''
+    },
+    deliveryAddress: {
+      clientAddress: ''
+    },
+    comment: '',
+    peopleCount: 0,
+    cartItems: [],
+    sticksCount: 0,
+    studySticksCount: 0,
+    deliveryType: 'DELIVERY',
+    paymentType: 'CASH',
+    statusType: 'CREATED'
+  };
+  ;
+  const { products } = useBasketContext()
+  const { deleteProduct } = useBasketDispatchContext()
+  products.forEach(element => {newOrd.cartItems.push({ id : element.id, quantity : element.count})});
+  let counters: counter = JSON.parse(localStorage.getItem('counters')!)
+  newOrd.studySticksCount = counters.sticks;
+  newOrd.peopleCount = counters.person;
+  newOrd.sticksCount = counters.person;
+  newOrd.toDateTime = Date.now();
+
+    
   return (
     <>
       <DrawerHeader
@@ -99,7 +135,14 @@ const DeliveryForm = ({ setSelectedBasketType }: Props) => {
             borderColor="turquoise.77"
             bg="none"
             borderRadius={25}
-            onClick={() => setSelectedBasketType('delivery')}
+            onClick={() => {
+            newOrd.deliveryType = deliveryType === 'delivery' ? 'DELIVERY': 'PICKUP';
+            newOrd.clientInfo.phoneNumber = phoneNumber;
+            newOrd.clientInfo.name = name;
+            newOrd.deliveryAddress.clientAddress = street;
+            addNewOrder(newOrd)
+            products.forEach(el=> deleteProduct(el))
+            }}
           >
             Continue
           </Button>

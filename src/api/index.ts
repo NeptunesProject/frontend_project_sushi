@@ -47,4 +47,17 @@ const getCategories = async (): Promise<Category[]> => {
   })
 }
 
-export { getProducts, getCategories, getProduct }
+const addNewOrder = async (newOrder: {}): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    apiClient
+      .post('/orders', newOrder)
+      .then((response) => {
+        resolve(response.data)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+export { getProducts, getCategories, getProduct, addNewOrder }

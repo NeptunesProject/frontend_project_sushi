@@ -39,6 +39,22 @@ interface Category {
   img: string
 }
 
+interface Order {
+  
+    toDateTime: number,
+    clientInfo: {phoneNumber: string , name:  string}, 
+    deliveryAddress: {clientAddress: string}, 
+    comment: string,
+    peopleCount: number,
+    cartItems: { id : number, quantity : number}[],
+    sticksCount: number,
+    studySticksCount: number,
+    deliveryType: 'DELIVERY' | 'PICKUP',
+    paymentType: 'CASH' | 'TERMINAL'| 'ONLINE',
+    statusType: "CREATED" | 'PROGRESS'
+  
+}
+
 interface ChakraFactoryComponent {
   className?: string
   children?: ReactNode | ReactNode[]
@@ -46,4 +62,4 @@ interface ChakraFactoryComponent {
 
 type BasketTypes = 'basket' | 'delivery' | 'pay'
 
-export type { Languages, Product, ChakraFactoryComponent, BasketTypes, Category }
+export type { Languages, Product, ChakraFactoryComponent, BasketTypes, Category, Order }

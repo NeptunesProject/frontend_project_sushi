@@ -41,7 +41,6 @@ const useBasketContext = () => {
   if (!Object.keys(context).length) {
     throw new Error('useProductsContext must be used within a ProductsProvider')
   }
-
   return context
 }
 
@@ -146,7 +145,7 @@ const BasketProvider = ({ children }: { children: ReactNode }) => {
         ...item.product,
         count: item.count,
       })),
-
+     
       totalWeight,
       totalPrice,
       productsCount: Object.values(selectedProducts).length,
