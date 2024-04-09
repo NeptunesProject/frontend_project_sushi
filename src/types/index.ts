@@ -45,7 +45,7 @@ interface ChakraFactoryComponent {
   children?: ReactNode | ReactNode[]
 }
 
-type BasketTypes = 'basket' | 'delivery' | 'pay'
+type BasketTypes = 'basket' | 'delivery' | 'confirmation' | 'pay'
 
 interface ClientInfo {
   phoneNumber: string
@@ -72,6 +72,7 @@ export enum DeliveryType {
 }
 
 interface Order {
+  id?: number
   toDateTime: string
   clientInfo: ClientInfo
   deliveryAddress: DeliveryAddress

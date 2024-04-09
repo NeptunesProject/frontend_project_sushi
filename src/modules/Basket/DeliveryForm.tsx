@@ -12,7 +12,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-import { BasketTypes, Product } from '../../types'
+import { BasketTypes } from '../../types'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import InfoToPay from './InfoToPay'
 import {
@@ -21,12 +21,14 @@ import {
 } from 'contexts/BasketContext'
 import { DeliveryType, PaymentType } from '../../types'
 import usePostOrder from 'hooks/usePostOrder'
+import getCartItems from 'helpers/getCartItems'
 
 interface Props {
   setSelectedBasketType: React.Dispatch<React.SetStateAction<BasketTypes>>
+  setOrderNumber: React.Dispatch<React.SetStateAction<number>>
 }
 
-const DeliveryForm = ({ setSelectedBasketType }: Props) => {
+const DeliveryForm = ({ setSelectedBasketType, setOrderNumber }: Props) => {
   const [name, setName] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [deliveryType, setDeliveryType] = useState('self')
@@ -56,9 +58,19 @@ const DeliveryForm = ({ setSelectedBasketType }: Props) => {
   }
 
   const handleSubmitOrder = () => {
-    setSelectedBasketType('delivery')
-    postOrderMutation.mutate(orderData)
+    postOrderMutation
+      .mutateAsync(orderData)
+      .then((data) => {
+        if (data && typeof data.id === 'number') {
+          setOrderNumber(data.id)
+          setSelectedBasketType('confirmation')
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+      })
   }
+
   return (
     <>
       <DrawerHeader
@@ -144,10 +156,3 @@ const DeliveryForm = ({ setSelectedBasketType }: Props) => {
 }
 
 export default DeliveryForm
-
-const getCartItems = (list: Product[]) => {
-  return list.map((item) => ({
-    id: item.id,
-    quantity: item.count || 0,
-  }))
-}
