@@ -12,20 +12,16 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-import { BasketTypes, Order } from '../../types'
+import { BasketTypes, Order, DeliveryType, PaymentType } from '../../types'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import InfoToPay from './InfoToPay'
 import useOrder from 'hooks/useOrder'
-import { useBasketContext, useBasketDispatchContext } from 'contexts/BasketContext'
+import { useBasketContext, useBasketDispatchContext, useAdditionalProductsContext, } from 'contexts/BasketContext'
 
 interface Props {
   setSelectedBasketType: React.Dispatch<React.SetStateAction<BasketTypes>>
 }
 
-interface counter {
-  person: number
-  sticks: number
-}
 
 const DeliveryForm = ({ setSelectedBasketType }: Props) => {
   const [name, setName] = useState('')
@@ -47,24 +43,25 @@ const DeliveryForm = ({ setSelectedBasketType }: Props) => {
     cartItems: [],
     sticksCount: 0,
     studySticksCount: 0,
-    deliveryType: 'DELIVERY',
-    paymentType: 'CASH',
+    deliveryType: DeliveryType.pickup,
+    paymentType: PaymentType.cash,
     statusType: 'CREATED'
   };
   ;
   const { products } = useBasketContext()
-  const { deleteProduct } = useBasketDispatchContext()
+  const {  clearAll } = useBasketDispatchContext()
   products.forEach(element => {newOrd.cartItems.push({ id : element.id, quantity : element.count})});
-  let counters: counter = JSON.parse(localStorage.getItem('counters')!)
-  newOrd.studySticksCount = counters.sticks;
-  newOrd.peopleCount = counters.person;
-  newOrd.sticksCount = counters.person;
+  const { personCount, sticks, setCount  } = useAdditionalProductsContext();
+  newOrd.studySticksCount = sticks;
+  newOrd.peopleCount = personCount;
+  newOrd.sticksCount = personCount;
+  
   newOrd.toDateTime = Date.now();
   const handleSubmitOrder = () => {
     setSelectedBasketType('delivery')
     orderMutation.mutate(newOrd)
   }
-    
+  
   return (
     <>
       <DrawerHeader
@@ -140,12 +137,14 @@ const DeliveryForm = ({ setSelectedBasketType }: Props) => {
             bg="none"
             borderRadius={25}
             onClick={() => {
-            newOrd.deliveryType = deliveryType === 'delivery' ? 'DELIVERY': 'PICKUP';
+            newOrd.deliveryType = deliveryType === 'delivery' ? DeliveryType.delivery : DeliveryType.pickup;
             newOrd.clientInfo.phoneNumber = phoneNumber;
             newOrd.clientInfo.name = name;
             newOrd.deliveryAddress.clientAddress = street;
             handleSubmitOrder();
-            products.forEach(el=> deleteProduct(el))
+            clearAll();
+            setCount('personCount', 1)
+            setCount('sticks', 0)
             }}
           >
             Continue

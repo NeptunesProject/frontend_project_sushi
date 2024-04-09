@@ -1,6 +1,7 @@
 import { Product } from '../types'
 import {
-  createContext, ReactNode,
+  createContext,
+  ReactNode,
   useCallback,
   useContext,
   useEffect,
@@ -20,15 +21,27 @@ interface BasketContextState {
   productsCount: number
 }
 
+interface AdditionalProductsContextState {
+  personCount: number
+  sticks: number
+  studySticksCount: number
+  setCount: (type: keyof AdditionalProductsContextState, count: number) => void
+}
+
 interface BasketDispatchContextState {
   addProduct: (product: Product, count?: number) => void
   removeProduct: (product: Product) => void
   deleteProduct: (product: Product) => void
+  clearAll: () => void
   isProductAdded: (product: Product) => boolean
 }
 
 const BasketContext = createContext<BasketContextState>(
   {} as BasketContextState,
+)
+
+const AdditionalProductsContext = createContext<AdditionalProductsContextState>(
+  {} as AdditionalProductsContextState,
 )
 
 const ProductsDispatchContext = createContext<BasketDispatchContextState>(
@@ -41,6 +54,19 @@ const useBasketContext = () => {
   if (!Object.keys(context).length) {
     throw new Error('useProductsContext must be used within a ProductsProvider')
   }
+
+  return context
+}
+
+const useAdditionalProductsContext = () => {
+  const context = useContext(AdditionalProductsContext)
+
+  if (!Object.keys(context).length) {
+    throw new Error(
+      'useAdditionalProductsContext must be used within a ProductsProvider',
+    )
+  }
+
   return context
 }
 
@@ -54,9 +80,7 @@ const useBasketDispatchContext = () => {
   return context
 }
 const BasketProvider = ({ children }: { children: ReactNode }) => {
-  const [selectedProducts, setSelectedProducts] = useState<
-    Record<number, ProductObj>
-  >(
+  const [selectedProducts, setSelectedProducts] = useState<Record<number, ProductObj>>(
     localStorage.getItem('selectedProducts')
       ? JSON.parse(localStorage.getItem('selectedProducts') as string)
       : {},
@@ -99,6 +123,9 @@ const BasketProvider = ({ children }: { children: ReactNode }) => {
       delete newState[product.id]
       return newState
     })
+  }, [])
+  const clearAll = useCallback(() => {
+    setSelectedProducts([])
   }, [])
 
   const removeProduct = useCallback(
@@ -145,7 +172,7 @@ const BasketProvider = ({ children }: { children: ReactNode }) => {
         ...item.product,
         count: item.count,
       })),
-     
+
       totalWeight,
       totalPrice,
       productsCount: Object.values(selectedProducts).length,
@@ -159,10 +186,10 @@ const BasketProvider = ({ children }: { children: ReactNode }) => {
       removeProduct,
       deleteProduct,
       isProductAdded,
+      clearAll
     }),
-    [addProduct, deleteProduct, removeProduct, isProductAdded],
+    [addProduct, deleteProduct, removeProduct, isProductAdded, clearAll],
   )
-
   return (
     <BasketContext.Provider value={contextValue}>
       <ProductsDispatchContext.Provider value={contextDispatchValue}>
@@ -171,5 +198,40 @@ const BasketProvider = ({ children }: { children: ReactNode }) => {
     </BasketContext.Provider>
   )
 }
+const AdditionalProductsProvider = ({ children }: { children: ReactNode }) => {
+  const [additionalProducts, setAdditionalProducts] =
+    useState<AdditionalProductsContextState>({
+      personCount: 1,
+      sticks: 0,
+      studySticksCount: 0,
+      setCount: () => {},
+    })
 
-export { useBasketContext, useBasketDispatchContext, BasketProvider }
+  const setCount = useCallback(
+    (type: keyof AdditionalProductsContextState, count: number) => {
+      setAdditionalProducts((prevState) => ({
+        ...prevState,
+        [type]: count,
+      }))
+    },
+    [],
+  )
+
+  const contextValue = useMemo(
+    () => ({ ...additionalProducts, setCount }),
+    [additionalProducts, setCount],
+  )
+  return (
+    <AdditionalProductsContext.Provider value={contextValue}>
+      {children}
+    </AdditionalProductsContext.Provider>
+  )
+}
+
+export {
+  useBasketContext,
+  useBasketDispatchContext,
+  BasketProvider,
+  useAdditionalProductsContext,
+  AdditionalProductsProvider,
+}

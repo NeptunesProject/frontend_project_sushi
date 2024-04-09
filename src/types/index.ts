@@ -49,8 +49,8 @@ interface Order {
     cartItems: { id : number, quantity : number}[],
     sticksCount: number,
     studySticksCount: number,
-    deliveryType: 'DELIVERY' | 'PICKUP',
-    paymentType: 'CASH' | 'TERMINAL'| 'ONLINE',
+    deliveryType: DeliveryType,
+    paymentType: PaymentType,
     statusType: "CREATED" | 'PROGRESS'
   
 }
@@ -61,5 +61,15 @@ interface ChakraFactoryComponent {
 }
 
 type BasketTypes = 'basket' | 'delivery' | 'pay'
+
+export enum PaymentType {
+  cash = 'CASH',
+  terminal = 'TERMINAL',
+  online = 'ONLINE',
+}
+export enum DeliveryType {
+  delivery = 'DELIVERY',
+  pickup = 'PICKUP',
+}
 
 export type { Languages, Product, ChakraFactoryComponent, BasketTypes, Category, Order }

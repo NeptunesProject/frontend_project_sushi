@@ -1,17 +1,18 @@
 import {useEffect, useState} from 'react'
 import { Flex, Text } from '@chakra-ui/react'
 import CountButton from '../../ui/CountButton'
-
+import { useAdditionalProductsContext } from 'contexts/BasketContext'
 
 
 const AdditionalProducts = () => {
-  const [personCount, setPersonCount] = useState(1)
-  const [sticks, setSticks] = useState(0)
-  let counters = {person: personCount, sticks: sticks};
+  const { personCount, sticks, setCount } = useAdditionalProductsContext()
+  // const [personCount, setPersonCount] = useState(1)
+  // const [sticks, setSticks] = useState(0)
+  // let counters = {person: personCount, sticks: sticks};
     
-  useEffect(() => {
-      localStorage.setItem('counters', JSON.stringify(counters))
-    }, [counters])
+  // useEffect(() => {
+  //     localStorage.setItem('counters', JSON.stringify(counters))
+  //   }, [counters])
    
  
   
@@ -28,7 +29,7 @@ const AdditionalProducts = () => {
             onClick={(e) => {
               e.preventDefault()
               if (personCount > 1) {
-                setPersonCount((prev) => prev - 1)
+                setCount('personCount', personCount - 1)
               }
             }}
           >
@@ -44,7 +45,7 @@ const AdditionalProducts = () => {
             borderLeftRadius={5}
             onClick={(e) => {
               e.preventDefault()
-              setPersonCount((prev) => prev + 1)
+              setCount('personCount', personCount + 1)
             }}
           >
             +
@@ -62,7 +63,7 @@ const AdditionalProducts = () => {
             onClick={(e) => {
               e.preventDefault()
               if (sticks > 0) {
-                setSticks((prev) => prev - 1)
+                setCount('sticks', sticks - 1)
               }
             }}
           >
@@ -78,7 +79,7 @@ const AdditionalProducts = () => {
             borderLeftRadius={5}
             onClick={(e) => {
               e.preventDefault()
-              setSticks((prev) => prev + 1)
+              setCount('sticks', sticks + 1)
             }}
           >
             +

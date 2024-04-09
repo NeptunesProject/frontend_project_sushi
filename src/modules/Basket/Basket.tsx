@@ -19,7 +19,7 @@ const Basket = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { productsCount } = useBasketContext()
 
-  if (!productsCount) return null;
+
 
   return (
     <>
