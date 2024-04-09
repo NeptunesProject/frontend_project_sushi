@@ -15,7 +15,7 @@ import {
 import { BasketTypes, Order } from '../../types'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import InfoToPay from './InfoToPay'
-import { addNewOrder } from "../../api/index";
+import useOrder from 'hooks/useOrder'
 import { useBasketContext, useBasketDispatchContext } from 'contexts/BasketContext'
 
 interface Props {
@@ -32,6 +32,7 @@ const DeliveryForm = ({ setSelectedBasketType }: Props) => {
   const [phoneNumber, setPhoneNumber] = useState('')
   const [deliveryType, setDeliveryType] = useState('self')
   const [street, setStreet] = useState('')
+  const orderMutation = useOrder();
   let newOrd: Order ={
     toDateTime: 0,
     clientInfo: {
@@ -59,7 +60,10 @@ const DeliveryForm = ({ setSelectedBasketType }: Props) => {
   newOrd.peopleCount = counters.person;
   newOrd.sticksCount = counters.person;
   newOrd.toDateTime = Date.now();
-
+  const handleSubmitOrder = () => {
+    setSelectedBasketType('delivery')
+    orderMutation.mutate(newOrd)
+  }
     
   return (
     <>
@@ -140,7 +144,7 @@ const DeliveryForm = ({ setSelectedBasketType }: Props) => {
             newOrd.clientInfo.phoneNumber = phoneNumber;
             newOrd.clientInfo.name = name;
             newOrd.deliveryAddress.clientAddress = street;
-            addNewOrder(newOrd)
+            handleSubmitOrder();
             products.forEach(el=> deleteProduct(el))
             }}
           >

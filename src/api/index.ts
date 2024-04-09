@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Category, Product } from '../types'
+import { Category, Product, Order } from '../types'
 
 const BASE_URL = import.meta.env.VITE_APP_MAIN_API
 
@@ -47,7 +47,7 @@ const getCategories = async (): Promise<Category[]> => {
   })
 }
 
-const addNewOrder = async (newOrder: {}): Promise<any> => {
+const addNewOrder = async (newOrder: Order): Promise<Order> => {
   return new Promise((resolve, reject) => {
     apiClient
       .post('/orders', newOrder)
