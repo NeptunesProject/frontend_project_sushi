@@ -16,6 +16,7 @@ import { BasketTypes } from '../../types'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import InfoToPay from './InfoToPay'
 import {
+  useBasketDispatchContext,
   useAdditionalProductsContext,
   useBasketContext,
 } from 'contexts/BasketContext'
@@ -27,7 +28,6 @@ interface Props {
   setSelectedBasketType: React.Dispatch<React.SetStateAction<BasketTypes>>
   setOrderNumber: React.Dispatch<React.SetStateAction<number>>
 }
-
 const DeliveryForm = ({ setSelectedBasketType, setOrderNumber }: Props) => {
   const [name, setName] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
@@ -38,6 +38,7 @@ const DeliveryForm = ({ setSelectedBasketType, setOrderNumber }: Props) => {
   const postOrderMutation = usePostOrder()
   const { personCount, sticks } = useAdditionalProductsContext()
   const sticksCount = personCount - sticks
+  const { clearAll } = useBasketDispatchContext()
 
   const orderData = {
     toDateTime: new Date().toJSON(),
@@ -63,6 +64,7 @@ const DeliveryForm = ({ setSelectedBasketType, setOrderNumber }: Props) => {
       .then((data) => {
         if (data && typeof data.id === 'number') {
           setOrderNumber(data.id)
+          clearAll()
           setSelectedBasketType('confirmation')
         }
       })

@@ -25,7 +25,7 @@ interface AdditionalProductsContextState {
   personCount: number
   sticks: number
   studySticksCount: number
-  setCount: (type: keyof AdditionalProductsContextState, count: number) => void
+  setAdditionalProductsCount: (type: keyof AdditionalProductsContextState, count: number) => void
 }
 
 interface BasketDispatchContextState {
@@ -33,6 +33,7 @@ interface BasketDispatchContextState {
   removeProduct: (product: Product) => void
   deleteProduct: (product: Product) => void
   isProductAdded: (product: Product) => boolean
+  clearAll: () => void
 }
 
 const BasketContext = createContext<BasketContextState>(
@@ -78,6 +79,7 @@ const useBasketDispatchContext = () => {
   }
   return context
 }
+
 const BasketProvider = ({ children }: { children: ReactNode }) => {
   const [selectedProducts, setSelectedProducts] = useState<
     Record<number, ProductObj>
@@ -124,6 +126,10 @@ const BasketProvider = ({ children }: { children: ReactNode }) => {
       delete newState[product.id]
       return newState
     })
+  }, [])
+
+  const clearAll = useCallback(() => {
+    setSelectedProducts([])
   }, [])
 
   const removeProduct = useCallback(
@@ -184,8 +190,9 @@ const BasketProvider = ({ children }: { children: ReactNode }) => {
       removeProduct,
       deleteProduct,
       isProductAdded,
+      clearAll,
     }),
-    [addProduct, deleteProduct, removeProduct, isProductAdded],
+    [addProduct, deleteProduct, removeProduct, isProductAdded, clearAll],
   )
   return (
     <BasketContext.Provider value={contextValue}>
@@ -195,16 +202,17 @@ const BasketProvider = ({ children }: { children: ReactNode }) => {
     </BasketContext.Provider>
   )
 }
+
 const AdditionalProductsProvider = ({ children }: { children: ReactNode }) => {
   const [additionalProducts, setAdditionalProducts] =
     useState<AdditionalProductsContextState>({
       personCount: 1,
       sticks: 0,
       studySticksCount: 0,
-      setCount: () => {},
+      setAdditionalProductsCount: () => {},
     })
 
-  const setCount = useCallback(
+  const setAdditionalProductsCount = useCallback(
     (type: keyof AdditionalProductsContextState, count: number) => {
       setAdditionalProducts((prevState) => ({
         ...prevState,
@@ -215,9 +223,10 @@ const AdditionalProductsProvider = ({ children }: { children: ReactNode }) => {
   )
 
   const contextValue = useMemo(
-    () => ({ ...additionalProducts, setCount }),
-    [additionalProducts, setCount],
+    () => ({ ...additionalProducts, setAdditionalProductsCount }),
+    [additionalProducts, setAdditionalProductsCount],
   )
+
   return (
     <AdditionalProductsContext.Provider value={contextValue}>
       {children}

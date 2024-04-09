@@ -4,10 +4,7 @@ import CountButton from '../../ui/CountButton'
 import { useAdditionalProductsContext } from 'contexts/BasketContext'
 
 const AdditionalProducts = () => {
-  //const [personCount, setPersonCount] = React.useState(1)
-  //const [sticks, setSticks] = React.useState(0)
-
-  const { personCount, sticks, setCount } = useAdditionalProductsContext()
+  const { personCount, sticks, setAdditionalProductsCount } = useAdditionalProductsContext()
 
   return (
     <Flex flexDir="column" fontWeight={600} gap={3}>
@@ -21,7 +18,7 @@ const AdditionalProducts = () => {
             onClick={(e) => {
               e.preventDefault()
               if (personCount > 1) {
-                setCount('personCount', personCount - 1)
+                setAdditionalProductsCount('personCount', personCount - 1)
               }
             }}
           >
@@ -37,7 +34,7 @@ const AdditionalProducts = () => {
             borderLeftRadius={5}
             onClick={(e) => {
               e.preventDefault()
-              setCount('personCount', personCount + 1)
+              setAdditionalProductsCount('personCount', personCount + 1)
             }}
           >
             +
@@ -55,7 +52,7 @@ const AdditionalProducts = () => {
             onClick={(e) => {
               e.preventDefault()
               if (sticks > 0) {
-                setCount('sticks', sticks - 1)
+                setAdditionalProductsCount('sticks', sticks - 1)
               }
             }}
           >
@@ -71,7 +68,7 @@ const AdditionalProducts = () => {
             borderLeftRadius={5}
             onClick={(e) => {
               e.preventDefault()
-              setCount('sticks', sticks + 1)
+              setAdditionalProductsCount('sticks', sticks + 1)
             }}
           >
             +

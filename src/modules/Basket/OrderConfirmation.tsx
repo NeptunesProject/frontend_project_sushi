@@ -10,6 +10,7 @@ import {
 interface Props {
   orderNumber: number
 }
+
 const OrderConfirmation = ({ orderNumber }: Props) => {
   return (
     <>
