@@ -85,6 +85,12 @@ interface Order {
   paymentType: PaymentType
 }
 
+interface Voucher {
+  [x: string]: any
+  voucherKey: string
+}
+
+
 export type {
   Languages,
   Product,
@@ -92,4 +98,6 @@ export type {
   BasketTypes,
   Category,
   Order,
+  Voucher,
+
 }
