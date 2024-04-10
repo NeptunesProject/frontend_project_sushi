@@ -76,8 +76,13 @@ const DeliveryForm = ({ setSelectedBasketType, setOrderNumber }: Props) => {
 
   useEffect(() => {
     orderData.deliveryType = deliveryType === 'delivery' ? DeliveryType.delivery : DeliveryType.pickup;
-    orderData.paymentType = paymentType === 'online' ? PaymentType.online : 
-    paymentType === 'cash' ? PaymentType.cash : PaymentType.terminal;
+    if (paymentType === 'online') {
+      orderData.paymentType = PaymentType.online;
+  } else if (paymentType === 'cash') {
+      orderData.paymentType = PaymentType.cash;
+  } else {
+      orderData.paymentType = PaymentType.terminal;
+}
   }, [paymentType, deliveryType]);
 
   return (
