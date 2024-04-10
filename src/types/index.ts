@@ -45,7 +45,7 @@ interface ChakraFactoryComponent {
   children?: ReactNode | ReactNode[]
 }
 
-type BasketTypes = 'basket' | 'delivery' | 'confirmation' | 'pay'
+type BasketTypes = 'basket' | 'delivery' | 'confirmation'| 'paymentInfo' | 'pay'
 
 interface ClientInfo {
   phoneNumber: string
