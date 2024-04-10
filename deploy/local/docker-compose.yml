@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  frontend:
+    container_name: frontend
+    image: ${HOST_FOR_DOCKER_IMAGE}/neptunessushi_frontend_${ENVIRONMENT}:${VERSION}
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    environment:
+      - VITE_APP_MAIN_API=${VITE_APP_MAIN_API}
+
+  dozzle:
+    container_name: dozzle
+    image: amir20/dozzle:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "9999:8080"
+    networks:
+      - backend_network
+    environment:
+      - DOZZLE_NO_ANALYTICS=true
+      - DOZZLE_USERNAME=${DOZZLE_USERNAME}
+      - DOZZLE_PASSWORD=${DOZZLE_PASSWORD}
+      - DOZZLE_KEY=true
+
+networks:
+  backend_network:
+    driver: bridge

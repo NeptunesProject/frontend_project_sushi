@@ -1,0 +1,123 @@
+{
+  "navbar": {
+    "0": "Home",
+    "1": "Promotions in Warsaw",
+    "2": "Delivery and payment",
+    "3": "About Us",
+    "4": "Contacts"
+  },
+  "place": "Warsaw",
+  "work-hours": {
+    "0": "Opening hours",
+    "1": "Mon-Thu 12:00-22:00",
+    "2": "Fri-Sun 12:00-23:00"
+  },
+  "category": {
+    "seasonal": "Seasonal menu",
+    "rolls": "Rolls",
+    "sets": "Sets",
+    "baked": "Baked",
+    "sushi": "Sushi",
+    "cakes": "Sushi Cakes",
+    "futomaki": "Futomaki",
+    "salad": "Salads",
+    "bowl": "Bowl",
+    "lenten_menu": "Lenten menu",
+    "dessert": "Desserts",
+    "drinks": "Drinks"
+  },
+  "footer": {
+    "logo": {
+      "politika": "Privacy policy",
+      "statute": "Statute",
+      "order": "Accepting Orders"
+    },
+    "nav": "Navigation",
+    "address": {
+      "title": "Address",
+      "place": "Warsaw",
+      "geo": "Chrystiana Piotra Aignera 6, 00-710"
+    },
+    "social": {
+      "title": "We are in social networks",
+      "payment": "Payment Methods"
+    }
+  },
+  "homeSlider": {
+    "title": "Introducing our new menu"
+  },
+  "deliveryInfo": {
+    "title": "Sushi Delivery in Warsaw",
+    "first": "Every time someone orders sushi or rolls, the number of happy people in the world increases. It's easy to become happy - just order sushi in Warsaw.",
+    "second": "In our menu, you will find not only delicious and fresh sushi and rolls but also other Japanese dishes.",
+    "third": "The Neptunes Sushi menu includes classic rolls and sushi (with fish and rice or with rice and seafood) as well as various variations of them (spicy, hot, baked, vegetarian).",
+    "fourth": "All known types of sushi:",
+    "fifth": "The best sushi rolls are considered to be Philadelphia (classic and various variations). It is a dish with cream cheese, fish (we use fillets of delicate Norwegian salmon without bones), and cucumber. This combination makes the dish surprisingly tasty and delicate.",
+    "sixth": "On top of that, there is also California roll (in various versions). If you've never tried this dish before, try ordering the sushi roll \"California\" with original ingredients: salmon, avocado, and flying fish roe. We also have options with shrimp and eel.",
+    "points": {
+      "first": "Futomaki. These rolls have a three-ingredient filling. Our sushi chefs strive to use combinations of ingredients that not only allow you to enjoy the taste of the dish but also provide beautiful flavor nuances.",
+      "second": "Roll Dragons.",
+      "third": "Seafood rolls.",
+      "fourth": "Hot rolls. They are prepared in the same way as uramaki and futomaki, and additionally fried or deep-fried."
+    }
+  },
+  "deliveryAdvantage": {
+    "title": "Advantages of Neptune's Sushi Delivery Service",
+    "first": "Order sushi online in Warsaw and let us know what you liked and what you didn't. Help us become the best!",
+    "points": {
+      "first": "High-quality dishes. We use only fresh ingredients from trusted suppliers and do not store them in the refrigerator; we start cooking right away.",
+      "second": "Large portions. In Warsaw, you can order sushi for various gatherings, both for a quiet dinner and for a large company.",
+      "third": "Open kitchen availability.",
+      "fourth": "Availability of promotions and discounts.",
+      "fifth": "Qualified staff.",
+      "sixth": "The ability to place a pre-order.",
+      "seventh": "Fast delivery."
+    }
+  },
+  "promotions": {
+    "title": "Promotions in Warsaw",
+    "firstBanner": {
+      "title": "Get 10% off when you pick up in person!",
+      "subtitle": "Pick up your order from any location and enjoy a discount",
+      "btnText": "Learn More"
+    },
+    "secondBanner": {
+      "title": "Happy Birthday!",
+      "subtitle": "10% off for the birthday boy within a week",
+      "btnText": "Learn More"
+    }
+  },
+  "deliveryPageInfo": {
+    "title": "Delivery Information in Warsaw",
+    "firstCard": {
+      "title": "Delivery",
+      "heading": "Save 10%",
+      "subtitle": "Orders can be placed a minimum of 40 minutes before pick-up. For self-pickup, we offer a 10% discount on every order."
+    },
+    "secondCard": {
+      "title": "Payment",
+      "heading": "Cash",
+      "subtitle": "Payment in cash to the courier or at the restaurant upon order pickup."
+    },
+    "thirdCard": {
+      "heading": "Card",
+      "subtitle": "You have the option to pay by card on the website (service available for Visa, MasterCard) and to the courier upon receipt."
+    }
+  },
+  "about": {
+    "title": "About Us",
+    "firstP": "The Neptunes Sushi project it is our new startup in sushi delivery ",
+    "secondP": "***",
+    "thirdP": "***",
+    "fourthP": "***",
+    "fifthP": "***"
+  },
+  "contacts": {
+    "title": "Contacts in Warsaw",
+    "heading": "Address",
+    "place": "city of Warsaw",
+    "phone": "Phone number: +48-888-619-595"
+  }
+
+
+}
