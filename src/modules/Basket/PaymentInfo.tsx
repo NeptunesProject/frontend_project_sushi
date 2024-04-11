@@ -63,12 +63,9 @@ const PaymentInfo = ({
       <DrawerBody>
         <Flex flexDir="column" gap={5}>
           <Text fontSize={15} fontWeight={600}>
-            Your order
+            Your voucher
           </Text>
-
-          <Box w="100%" h="1px" bg="grey" opacity={0.6} />
-
-          <Flex gap={4} align="start" mb={4}>
+          <Flex gap={4} align="start" mb={4} justify="space-between">
             <Input
               value={voucher}
               onInput={(e) => setVoucher((e.target as HTMLInputElement).value)}
@@ -88,7 +85,7 @@ const PaymentInfo = ({
               Apply
             </Button>
           </Flex>
-
+          <Box w="100%" h="1px" bg="grey" opacity={0.6} />
           <InfoToPay />
           <Button
             alignSelf="end"
