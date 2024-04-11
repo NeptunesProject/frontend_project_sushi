@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import useCategories from '../../hooks/useCategories'
 import { useMemo } from 'react'
 import { Category } from '../../types'
+import { HashLink } from 'react-router-hash-link';
 
 const AppSidebar = () => {
   const { i18n } = useTranslation()
@@ -55,6 +56,7 @@ const AppSidebar = () => {
       borderBottomRadius={{ base: 0, lg: 10 }}
     >
       {categoriesWithMetadata.map((category) => (
+      <HashLink to={`/#${category.name}`}>
         <Flex
           gap={1}
           flexDir="column"
@@ -76,12 +78,15 @@ const AppSidebar = () => {
             color="grey.100"
             fontWeight={800}
           >
-            {getNameByTranslate(category)}
-          </Text>
-        </Flex>
+            {getNameByTranslate(category)} 
+           </Text>
+           
+        </Flex></HashLink>
       ))}
     </Flex>
   )
 }
 
 export default AppSidebar
+
+
