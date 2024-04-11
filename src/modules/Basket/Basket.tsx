@@ -94,7 +94,10 @@ const Basket = () => {
             />
           )}
           {selectedBasketType === 'confirmation' && (
-            <OrderConfirmation orderNumber={orderNumber} />
+            <OrderConfirmation
+              orderNumber={orderNumber}
+              setSelectedBasketType={setSelectedBasketType}
+            />
           )}
         </DrawerContent>
       </Drawer>

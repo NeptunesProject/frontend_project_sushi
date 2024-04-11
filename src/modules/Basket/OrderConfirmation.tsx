@@ -6,12 +6,18 @@ import {
   Flex,
   Text,
 } from '@chakra-ui/react'
+import { BasketTypes } from 'types'
 
 interface Props {
   orderNumber: number
+  setSelectedBasketType: React.Dispatch<React.SetStateAction<BasketTypes>>
 }
 
-const OrderConfirmation = ({ orderNumber }: Props) => {
+const OrderConfirmation = ({ orderNumber, setSelectedBasketType }: Props) => {
+  const handleCloseBasket = () => {
+    setSelectedBasketType('basket')
+  }
+
   return (
     <>
       <DrawerHeader
@@ -20,7 +26,7 @@ const OrderConfirmation = ({ orderNumber }: Props) => {
         alignItems="center"
       >
         <Text fontSize={23}>Thank you!</Text>
-        <DrawerCloseButton pos="static" />
+        <DrawerCloseButton pos="static" onClick={handleCloseBasket} />
       </DrawerHeader>
 
       <DrawerBody>

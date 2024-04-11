@@ -19,9 +19,9 @@ import { BasketTypes, Order } from 'types'
 import usePostOrder from 'hooks/usePostOrder'
 
 interface Props {
-  setSelectedBasketType: React.Dispatch<React.SetStateAction<BasketTypes>>
   orderData: Order
   setOrderNumber: React.Dispatch<React.SetStateAction<number>>
+  setSelectedBasketType: React.Dispatch<React.SetStateAction<BasketTypes>>
 }
 
 const PaymentInfo = ({
