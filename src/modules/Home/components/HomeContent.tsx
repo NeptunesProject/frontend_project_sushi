@@ -39,7 +39,7 @@ const HomeContent = () => {
           <Spinner />
         </Center>
       ) : (
-        <Flex flexDirection="column" py={16} gap={20}>
+        <Flex flexDirection="column" py={16} mb={120} gap={20}>
           {Object.entries(productsByCategory).map(([category, products]) => (
             <CategoryGrid
               key={category}

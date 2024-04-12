@@ -12,11 +12,11 @@ import { AdditionalProductsProvider, BasketProvider } from '../contexts/BasketCo
 const AppContainer = () => {
   return (
     <AnimatedAppearance>
-      <Flex flexDir="column" minH="100vh" pos="relative">
+      <Flex flexDir="column" minH="100vh" pos="relative" >
         <BasketProvider>
           <AdditionalProductsProvider>
           <AppHeader />
-          <Box as="main" flex="1 0 auto">
+          <Box as="main" flex="1 0 auto" >
             <Routes />
           </Box>
           <AppFooter />
@@ -25,7 +25,8 @@ const AppContainer = () => {
           <Box
             w={{ base: '100%', lg: 'auto' }}
             pos="fixed"
-            top={{ base: 'none', lg: '20' }}
+            top={{ base: 'none', lg: '120' }}
+            
             bottom={{ base: 0, lg: 'none' }}
             overflowX="scroll"
           >
