@@ -59,7 +59,7 @@ const getCategories = async (): Promise<Category[]> => {
   })
 }
 
-const validateVaucher = async (data: Voucher): Promise<any> => {
+const validateVoucher = async (data: Voucher): Promise<Voucher> => {
   return new Promise((resolve, reject) => {
     apiClient
       .post('/vouchers/validate', data)
@@ -73,4 +73,4 @@ const validateVaucher = async (data: Voucher): Promise<any> => {
 }
 
 
-export { getProducts, postOrder, getCategories, getProduct, validateVaucher }
+export { getProducts, postOrder, getCategories, getProduct, validateVoucher }

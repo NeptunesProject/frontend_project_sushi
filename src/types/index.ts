@@ -45,7 +45,7 @@ interface ChakraFactoryComponent {
   children?: ReactNode | ReactNode[]
 }
 
-type BasketTypes = 'basket' | 'delivery' | 'confirmation' | 'pay'
+type BasketTypes = 'basket' | 'delivery' | 'confirmation'| 'paymentInfo' | 'pay'
 
 interface ClientInfo {
   phoneNumber: string
@@ -86,6 +86,8 @@ interface Order {
 }
 
 interface Voucher {
+  
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [x: string]: any
   voucherKey: string
 }
