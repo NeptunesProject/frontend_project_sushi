@@ -7,7 +7,7 @@ const HomeSlider = () => {
   const { t } = useTranslation()
 
   return (
-    <Flex w="100%" justify="center" align="center" pos="relative" h={400}>
+    <Flex w="100%" justify="center" align="center" pos="relative" h={400}mt={100} mb={-100}>
       <Image
         pos="absolute"
         borderRadius={20}

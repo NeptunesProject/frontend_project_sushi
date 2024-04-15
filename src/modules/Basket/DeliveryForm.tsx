@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Box,
   Button,
@@ -39,6 +39,7 @@ const DeliveryForm = ({ setSelectedBasketType, setOrderNumber }: Props) => {
   const { personCount, sticks } = useAdditionalProductsContext()
   const sticksCount = personCount - sticks
   const { clearAll } = useBasketDispatchContext()
+  const [paymentType, setPaymentType] = useState('online')
 
   const orderData = {
     toDateTime: new Date().toJSON(),
@@ -72,6 +73,17 @@ const DeliveryForm = ({ setSelectedBasketType, setOrderNumber }: Props) => {
         console.error('Error:', error)
       })
   }
+
+  useEffect(() => {
+    orderData.deliveryType = deliveryType === 'delivery' ? DeliveryType.delivery : DeliveryType.pickup;
+    if (paymentType === 'online') {
+      orderData.paymentType = PaymentType.online;
+  } else if (paymentType === 'cash') {
+      orderData.paymentType = PaymentType.cash;
+  } else {
+      orderData.paymentType = PaymentType.terminal;
+}
+  }, [paymentType, deliveryType]);
 
   return (
     <>
@@ -136,6 +148,24 @@ const DeliveryForm = ({ setSelectedBasketType, setOrderNumber }: Props) => {
                 <Radio value="delivery">Delivery to address</Radio>
               </Stack>
             </RadioGroup>
+
+            <Text fontSize={18} fontWeight={600} mt={10} mb={3}>
+            Payment properties
+            </Text>
+
+            <RadioGroup onChange={setPaymentType}>
+              {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+              {/* @ts-expect-error */}
+              <Stack direction="column" value={paymentType}>
+                <Radio defaultChecked value="online">Pay On-Line</Radio>
+                <Radio value="cash">Pay with Cash</Radio>            
+                <Radio value="terminal">Pay with terminal</Radio>
+              </Stack>
+            </RadioGroup>
+
+
+
+
           </Box>
 
           <InfoToPay />
