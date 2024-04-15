@@ -1,6 +1,7 @@
 import { Product } from '../types'
 import {
-  createContext, ReactNode,
+  createContext,
+  ReactNode,
   useCallback,
   useContext,
   useEffect,
@@ -20,15 +21,27 @@ interface BasketContextState {
   productsCount: number
 }
 
+interface AdditionalProductsContextState {
+  personCount: number
+  sticks: number
+  studySticksCount: number
+  setAdditionalProductsCount: (type: keyof AdditionalProductsContextState, count: number) => void
+}
+
 interface BasketDispatchContextState {
   addProduct: (product: Product, count?: number) => void
   removeProduct: (product: Product) => void
   deleteProduct: (product: Product) => void
   isProductAdded: (product: Product) => boolean
+  clearAll: () => void
 }
 
 const BasketContext = createContext<BasketContextState>(
   {} as BasketContextState,
+)
+
+const AdditionalProductsContext = createContext<AdditionalProductsContextState>(
+  {} as AdditionalProductsContextState,
 )
 
 const ProductsDispatchContext = createContext<BasketDispatchContextState>(
@@ -45,6 +58,18 @@ const useBasketContext = () => {
   return context
 }
 
+const useAdditionalProductsContext = () => {
+  const context = useContext(AdditionalProductsContext)
+
+  if (!Object.keys(context).length) {
+    throw new Error(
+      'useAdditionalProductsContext must be used within a ProductsProvider',
+    )
+  }
+
+  return context
+}
+
 const useBasketDispatchContext = () => {
   const context = useContext(ProductsDispatchContext)
   if (!Object.keys(context).length) {
@@ -54,6 +79,7 @@ const useBasketDispatchContext = () => {
   }
   return context
 }
+
 const BasketProvider = ({ children }: { children: ReactNode }) => {
   const [selectedProducts, setSelectedProducts] = useState<
     Record<number, ProductObj>
@@ -100,6 +126,10 @@ const BasketProvider = ({ children }: { children: ReactNode }) => {
       delete newState[product.id]
       return newState
     })
+  }, [])
+
+  const clearAll = useCallback(() => {
+    setSelectedProducts([])
   }, [])
 
   const removeProduct = useCallback(
@@ -160,10 +190,10 @@ const BasketProvider = ({ children }: { children: ReactNode }) => {
       removeProduct,
       deleteProduct,
       isProductAdded,
+      clearAll,
     }),
-    [addProduct, deleteProduct, removeProduct, isProductAdded],
+    [addProduct, deleteProduct, removeProduct, isProductAdded, clearAll],
   )
-
   return (
     <BasketContext.Provider value={contextValue}>
       <ProductsDispatchContext.Provider value={contextDispatchValue}>
@@ -173,4 +203,41 @@ const BasketProvider = ({ children }: { children: ReactNode }) => {
   )
 }
 
-export { useBasketContext, useBasketDispatchContext, BasketProvider }
+const AdditionalProductsProvider = ({ children }: { children: ReactNode }) => {
+  const [additionalProducts, setAdditionalProducts] =
+    useState<AdditionalProductsContextState>({
+      personCount: 1,
+      sticks: 0,
+      studySticksCount: 0,
+      setAdditionalProductsCount: () => {},
+    })
+
+  const setAdditionalProductsCount = useCallback(
+    (type: keyof AdditionalProductsContextState, count: number) => {
+      setAdditionalProducts((prevState) => ({
+        ...prevState,
+        [type]: count,
+      }))
+    },
+    [],
+  )
+
+  const contextValue = useMemo(
+    () => ({ ...additionalProducts, setAdditionalProductsCount }),
+    [additionalProducts, setAdditionalProductsCount],
+  )
+
+  return (
+    <AdditionalProductsContext.Provider value={contextValue}>
+      {children}
+    </AdditionalProductsContext.Provider>
+  )
+}
+
+export {
+  useBasketContext,
+  useBasketDispatchContext,
+  BasketProvider,
+  useAdditionalProductsContext,
+  AdditionalProductsProvider,
+}
