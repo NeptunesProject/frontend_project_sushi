@@ -11,12 +11,13 @@ import {
 } from '@chakra-ui/react'
 
 import InfoToPay from './InfoToPay'
-import {
-  useBasketContext,
-  useBasketDispatchContext,
-} from '../../contexts/BasketContext'
-import { BasketTypes, Order } from 'types'
-import usePostOrder from 'hooks/usePostOrder'
+import { useBasketContext } from '../../contexts/BasketContext'
+import { BasketTypes, Order, Voucher } from 'types'
+
+import useVoucherFromStorage from 'hooks/useVoucherFromStorage'
+import { ArrowBackIcon } from '@chakra-ui/icons'
+import useVoucherMutation from 'hooks/useVoucherMutation'
+import usePostOrderMutation from 'hooks/usePostOrderMutation'
 
 interface Props {
   orderData: Order
@@ -30,23 +31,29 @@ const PaymentInfo = ({
   setOrderNumber,
 }: Props) => {
   const { productsCount } = useBasketContext()
-  const { clearAll } = useBasketDispatchContext()
-  const postOrderMutation = usePostOrder()
-  const [voucher, setVoucher] = useState('')
 
-  const handleSubmitOrder = () => {
-    postOrderMutation
-      .mutateAsync(orderData)
-      .then((data) => {
-        if (data && typeof data.id === 'number') {
-          setOrderNumber(data.id)
-          clearAll()
-          setSelectedBasketType('confirmation')
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error)
-      })
+  const [voucher, setVoucher] = useState<Voucher>({ voucherKey: '' })
+  const { handleVoucher, isValid } = useVoucherMutation(voucher)
+
+  const { voucherDataFromStorage: isVoucherValid } = useVoucherFromStorage(
+    'isVoucherValid',
+    false,
+  )
+  const { handleSubmitOrder } = usePostOrderMutation({
+    orderData,
+    setOrderNumber,
+    setSelectedBasketType,
+  })
+
+  const { voucherDataFromStorage: voucherCodeFromStorage } =
+    useVoucherFromStorage('voucherCode', '')
+
+  const handleSubmitVoucher = () => {
+    handleVoucher()
+  }
+
+  const handleCloseBasket = () => {
+    setSelectedBasketType('basket')
   }
 
   return (
@@ -56,19 +63,31 @@ const PaymentInfo = ({
         justifyContent="space-between"
         alignItems="center"
       >
-        <Text fontSize={23}>Payment Information</Text>
-        <DrawerCloseButton pos="static" />
+        <Text
+          cursor="pointer"
+          onClick={() => setSelectedBasketType('delivery')}
+          fontSize={15}
+        >
+          <ArrowBackIcon /> back{' '}
+        </Text>
+        <DrawerCloseButton pos="static" onClick={handleCloseBasket} />
       </DrawerHeader>
 
       <DrawerBody>
+        <Text fontSize={18} fontWeight={600} mb={5}>
+          Payment Information
+        </Text>
         <Flex flexDir="column" gap={5}>
           <Text fontSize={15} fontWeight={600}>
             Your voucher
           </Text>
           <Flex gap={4} align="start" mb={4} justify="space-between">
             <Input
-              value={voucher}
-              onInput={(e) => setVoucher((e.target as HTMLInputElement).value)}
+              value={voucher.voucherKey || voucherCodeFromStorage || ''}
+              onInput={(e) => {
+                const target = e.target as HTMLInputElement
+                setVoucher({ voucherKey: target.value })
+              }}
               placeholder="voucher"
               w="40%"
             />
@@ -79,14 +98,14 @@ const PaymentInfo = ({
               borderColor="turquoise.77"
               bg="none"
               borderRadius={25}
-              isDisabled={productsCount === 0}
-              onClick={handleSubmitOrder}
+              isDisabled={(isValid || isVoucherValid) ?? undefined}
+              onClick={handleSubmitVoucher}
             >
-              Apply
+              {isValid || isVoucherValid ? 'Applied' : 'Apply'}
             </Button>
           </Flex>
           <Box w="100%" h="1px" bg="grey" opacity={0.6} />
-          <InfoToPay />
+          <InfoToPay basketType="paymentInfo" />
           <Button
             alignSelf="end"
             w="60%"

@@ -45,7 +45,12 @@ interface ChakraFactoryComponent {
   children?: ReactNode | ReactNode[]
 }
 
-type BasketTypes = 'basket' | 'delivery' | 'confirmation'| 'paymentInfo' | 'pay'
+type BasketTypes =
+  | 'basket'
+  | 'delivery'
+  | 'confirmation'
+  | 'paymentInfo'
+  | 'pay'
 
 interface ClientInfo {
   phoneNumber: string
@@ -83,8 +88,14 @@ interface Order {
   studySticksCount: number
   deliveryType: DeliveryType
   paymentType: PaymentType
+  code?: string
 }
 
+interface Voucher {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [x: string]: any
+  voucherKey: string
+}
 export type {
   Languages,
   Product,
@@ -92,4 +103,5 @@ export type {
   BasketTypes,
   Category,
   Order,
+  Voucher,
 }
