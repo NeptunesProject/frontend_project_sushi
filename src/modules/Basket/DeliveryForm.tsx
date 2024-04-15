@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react'
 import {
   Box,
@@ -23,7 +24,7 @@ import {
 import { DeliveryType, PaymentType } from '../../types'
 import usePostOrder from 'hooks/usePostOrder'
 import getCartItems from 'helpers/getCartItems'
-import useVoucher from 'hooks/useVoucher'
+// import useVoucher from 'hooks/useVoucher'
 
 interface Props {
   setSelectedBasketType: React.Dispatch<React.SetStateAction<BasketTypes>>
@@ -37,7 +38,7 @@ const DeliveryForm = ({ setSelectedBasketType, setOrderNumber }: Props) => {
   const { products } = useBasketContext()
   const cartItems = getCartItems(products)
   const postOrderMutation = usePostOrder()
-  const voucherMutation = useVoucher()
+  // const voucherMutation = useVoucher()
   const { personCount, sticks } = useAdditionalProductsContext()
   const sticksCount = personCount - sticks
   const { clearAll } = useBasketDispatchContext()
@@ -77,23 +78,23 @@ const DeliveryForm = ({ setSelectedBasketType, setOrderNumber }: Props) => {
   }
 
 
-  const voucher = {
-     voucherKey :"valid_50_voucher"
-}
+//   const voucher = {
+//      voucherKey :"valid_50_voucher"
+// }
 
-  const handleVoucher = () => {
-    voucherMutation
-      .mutateAsync(voucher)
-      .then((data) => {
-        if (data && data.code) {
-          console.log(data.code)
-        }
+//   const handleVoucher = () => {
+//     voucherMutation
+//       .mutateAsync(voucher)
+//       .then((data) => {
+//         if (data && data.code) {
+//           console.log(data.code)
+//         }
 
-      })
-      .catch((error) => {
-        console.error('Error:', error)
-      })
-  }
+//       })
+//       .catch((error) => {
+//         console.error('Error:', error)
+//       })
+//   }
 
 
   useEffect(() => {
@@ -199,8 +200,8 @@ const DeliveryForm = ({ setSelectedBasketType, setOrderNumber }: Props) => {
             borderColor="turquoise.77"
             bg="none"
             borderRadius={25}
-            // onClick={handleSubmitOrder}
-           onClick={handleVoucher}
+            onClick={handleSubmitOrder}
+          //  onClick={handleVoucher}
           >
             Continue
           </Button>
