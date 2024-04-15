@@ -8,6 +8,7 @@ import {
   useMemo,
   useState,
 } from 'react'
+//import useVoucherFromStorage from 'hooks/useVoucherFromStorage'
 
 interface ProductObj {
   count: number
@@ -25,7 +26,10 @@ interface AdditionalProductsContextState {
   personCount: number
   sticks: number
   studySticksCount: number
-  setAdditionalProductsCount: (type: keyof AdditionalProductsContextState, count: number) => void
+  setAdditionalProductsCount: (
+    type: keyof AdditionalProductsContextState,
+    count: number,
+  ) => void
 }
 
 interface BasketDispatchContextState {
@@ -91,6 +95,11 @@ const BasketProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     localStorage.setItem('selectedProducts', JSON.stringify(selectedProducts))
   }, [selectedProducts])
+
+  //const { voucherDataFromStorage: percentageFromStorage } =
+  //  useVoucherFromStorage('discountPercentage', 0)
+  //
+  //const discountPercentage = percentageFromStorage
 
   const addProduct = useCallback(
     (product: Product, count?: number) => {

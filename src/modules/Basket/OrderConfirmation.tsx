@@ -5,17 +5,19 @@ import {
   DrawerHeader,
   Flex,
   Text,
-  Button
 } from '@chakra-ui/react'
-import { BasketTypes } from '../../types'
+import { BasketTypes } from 'types'
 
 interface Props {
   orderNumber: number
   setSelectedBasketType: React.Dispatch<React.SetStateAction<BasketTypes>>
 }
 
-const OrderConfirmation = ({ setSelectedBasketType, orderNumber }: Props) => {
-  const busketTypeHandler = () =>{setSelectedBasketType('basket')}
+const OrderConfirmation = ({ orderNumber, setSelectedBasketType }: Props) => {
+  const handleCloseBasket = () => {
+    setSelectedBasketType('basket')
+  }
+
   return (
     <>
       <DrawerHeader
@@ -24,7 +26,7 @@ const OrderConfirmation = ({ setSelectedBasketType, orderNumber }: Props) => {
         alignItems="center"
       >
         <Text fontSize={23}>Thank you!</Text>
-        <DrawerCloseButton pos="static" />
+        <DrawerCloseButton pos="static" onClick={handleCloseBasket} />
       </DrawerHeader>
 
       <DrawerBody>
@@ -37,19 +39,6 @@ const OrderConfirmation = ({ setSelectedBasketType, orderNumber }: Props) => {
           </Text>
         </Flex>
       </DrawerBody>
-
-      <Button
-            alignSelf="end"
-            w="60%"
-            border="2px solid"
-            borderColor="turquoise.77"
-            bg="none"
-            borderRadius={25}
-            onClick={busketTypeHandler}
-          >
-            Thanks! Got it!
-      </Button>
-
     </>
   )
 }

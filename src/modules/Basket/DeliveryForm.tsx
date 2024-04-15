@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
   Box,
   Button,
@@ -12,34 +12,31 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-import { BasketTypes } from '../../types'
+import { BasketTypes, Order } from '../../types'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import InfoToPay from './InfoToPay'
 import {
-  useBasketDispatchContext,
   useAdditionalProductsContext,
   useBasketContext,
 } from 'contexts/BasketContext'
 import { DeliveryType, PaymentType } from '../../types'
-import usePostOrder from 'hooks/usePostOrder'
 import getCartItems from 'helpers/getCartItems'
 
 interface Props {
   setSelectedBasketType: React.Dispatch<React.SetStateAction<BasketTypes>>
-  setOrderNumber: React.Dispatch<React.SetStateAction<number>>
+  setOrderData: React.Dispatch<React.SetStateAction<Order>>
 }
-const DeliveryForm = ({ setSelectedBasketType, setOrderNumber }: Props) => {
+
+const DeliveryForm = ({ setSelectedBasketType, setOrderData }: Props) => {
   const [name, setName] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
   const [deliveryType, setDeliveryType] = useState('self')
   const [street, setStreet] = useState('')
   const { products } = useBasketContext()
   const cartItems = getCartItems(products)
-  const postOrderMutation = usePostOrder()
+
   const { personCount, sticks } = useAdditionalProductsContext()
   const sticksCount = personCount - sticks
-  const { clearAll } = useBasketDispatchContext()
-  const [paymentType, setPaymentType] = useState('online')
 
   const orderData = {
     toDateTime: new Date().toJSON(),
@@ -59,31 +56,10 @@ const DeliveryForm = ({ setSelectedBasketType, setOrderNumber }: Props) => {
     paymentType: PaymentType.online,
   }
 
-  const handleSubmitOrder = () => {
-    postOrderMutation
-      .mutateAsync(orderData)
-      .then((data) => {
-        if (data && typeof data.id === 'number') {
-          setOrderNumber(data.id)
-          clearAll()
-          setSelectedBasketType('confirmation')
-        }
-      })
-      .catch((error) => {
-        console.error('Error:', error)
-      })
+  const handleDeliveryForm = () => {
+    setOrderData(orderData)
+    setSelectedBasketType('paymentInfo')
   }
-
-  useEffect(() => {
-    orderData.deliveryType = deliveryType === 'delivery' ? DeliveryType.delivery : DeliveryType.pickup;
-    if (paymentType === 'online') {
-      orderData.paymentType = PaymentType.online;
-  } else if (paymentType === 'cash') {
-      orderData.paymentType = PaymentType.cash;
-  } else {
-      orderData.paymentType = PaymentType.terminal;
-}
-  }, [paymentType, deliveryType]);
 
   return (
     <>
@@ -148,24 +124,6 @@ const DeliveryForm = ({ setSelectedBasketType, setOrderNumber }: Props) => {
                 <Radio value="delivery">Delivery to address</Radio>
               </Stack>
             </RadioGroup>
-
-            <Text fontSize={18} fontWeight={600} mt={10} mb={3}>
-            Payment properties
-            </Text>
-
-            <RadioGroup onChange={setPaymentType}>
-              {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-              {/* @ts-expect-error */}
-              <Stack direction="column" value={paymentType}>
-                <Radio defaultChecked value="online">Pay On-Line</Radio>
-                <Radio value="cash">Pay with Cash</Radio>            
-                <Radio value="terminal">Pay with terminal</Radio>
-              </Stack>
-            </RadioGroup>
-
-
-
-
           </Box>
 
           <InfoToPay />
@@ -177,7 +135,7 @@ const DeliveryForm = ({ setSelectedBasketType, setOrderNumber }: Props) => {
             borderColor="turquoise.77"
             bg="none"
             borderRadius={25}
-            onClick={handleSubmitOrder}
+            onClick={handleDeliveryForm}
           >
             Continue
           </Button>
