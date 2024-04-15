@@ -12,7 +12,7 @@ import {
   Stack,
   Text,
 } from '@chakra-ui/react'
-import { BasketTypes } from '../../types'
+import { BasketTypes} from '../../types'
 import { ArrowBackIcon } from '@chakra-ui/icons'
 import InfoToPay from './InfoToPay'
 import {
@@ -23,6 +23,7 @@ import {
 import { DeliveryType, PaymentType } from '../../types'
 import usePostOrder from 'hooks/usePostOrder'
 import getCartItems from 'helpers/getCartItems'
+import useVoucher from 'hooks/useVoucher'
 
 interface Props {
   setSelectedBasketType: React.Dispatch<React.SetStateAction<BasketTypes>>
@@ -36,6 +37,7 @@ const DeliveryForm = ({ setSelectedBasketType, setOrderNumber }: Props) => {
   const { products } = useBasketContext()
   const cartItems = getCartItems(products)
   const postOrderMutation = usePostOrder()
+  const voucherMutation = useVoucher()
   const { personCount, sticks } = useAdditionalProductsContext()
   const sticksCount = personCount - sticks
   const { clearAll } = useBasketDispatchContext()
@@ -73,6 +75,26 @@ const DeliveryForm = ({ setSelectedBasketType, setOrderNumber }: Props) => {
         console.error('Error:', error)
       })
   }
+
+
+  const voucher = {
+     voucherKey :"valid_50_voucher"
+}
+
+  const handleVoucher = () => {
+    voucherMutation
+      .mutateAsync(voucher)
+      .then((data) => {
+        if (data && data.code) {
+          console.log(data.code)
+        }
+
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+      })
+  }
+
 
   useEffect(() => {
     orderData.deliveryType = deliveryType === 'delivery' ? DeliveryType.delivery : DeliveryType.pickup;
@@ -177,7 +199,8 @@ const DeliveryForm = ({ setSelectedBasketType, setOrderNumber }: Props) => {
             borderColor="turquoise.77"
             bg="none"
             borderRadius={25}
-            onClick={handleSubmitOrder}
+            // onClick={handleSubmitOrder}
+           onClick={handleVoucher}
           >
             Continue
           </Button>
