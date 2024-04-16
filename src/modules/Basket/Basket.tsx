@@ -8,11 +8,12 @@ import {
 } from '@chakra-ui/react'
 import basket from 'assets/img/basket.svg'
 import DeliveryForm from './DeliveryForm'
-import { BasketTypes } from '../../types'
+import { BasketTypes, DeliveryType, Order, PaymentType } from '../../types'
 import BasketType from './BasketType'
 import { useState } from 'react'
 import { useBasketContext } from '../../contexts/BasketContext'
 import OrderConfirmation from './OrderConfirmation'
+import PaymentInfo from './PaymentInfo'
 
 const Basket = () => {
   const [selectedBasketType, setSelectedBasketType] =
@@ -20,6 +21,23 @@ const Basket = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { productsCount } = useBasketContext()
   const [orderNumber, setOrderNumber] = useState(0)
+  const [orderData, setOrderData] = useState<Order>({
+    toDateTime: '',
+    clientInfo: {
+      phoneNumber: '',
+      name: '',
+    },
+    deliveryAddress: {
+      clientAddress: '',
+    },
+    comment: '',
+    peopleCount: 0,
+    sticksCount: 0,
+    studySticksCount: 0,
+    cartItems: [],
+    deliveryType: DeliveryType.delivery,
+    paymentType: PaymentType.online,
+  })
 
   return (
     <>
@@ -49,6 +67,7 @@ const Basket = () => {
           </Center>
         ) : null}
       </Center>
+      {console.log(orderData)}
       <Drawer
         isOpen={isOpen}
         placement="right"
@@ -58,20 +77,30 @@ const Basket = () => {
         autoFocus={false}
         size="sm"
       >
+        
         <DrawerContent>
           {selectedBasketType === 'basket' && (
             <BasketType setSelectedBasketType={setSelectedBasketType} />
+            
           )}
           {selectedBasketType === 'delivery' && (
             <DeliveryForm
               setSelectedBasketType={setSelectedBasketType}
+              setOrderData={setOrderData}
+            />
+          )}
+          {selectedBasketType === 'paymentInfo' && (
+            <PaymentInfo
+              setSelectedBasketType={setSelectedBasketType}
               setOrderNumber={setOrderNumber}
+              orderData={orderData}
             />
           )}
           {selectedBasketType === 'confirmation' && (
-            <OrderConfirmation 
-            setSelectedBasketType={setSelectedBasketType}
-            orderNumber={orderNumber} />
+            <OrderConfirmation
+              orderNumber={orderNumber}
+              setSelectedBasketType={setSelectedBasketType}
+            />
           )}
         </DrawerContent>
       </Drawer>

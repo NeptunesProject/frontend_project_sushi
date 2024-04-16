@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { Category, Order, Product } from '../types'
+import { Category, Order, Product, Voucher } from '../types'
 
 const BASE_URL = import.meta.env.VITE_APP_MAIN_API
 
@@ -20,6 +20,7 @@ const getProducts = async (): Promise<Product[]> => {
       })
   })
 }
+
 const postOrder = async (data: Order): Promise<Order> => {
   return new Promise((resolve, reject) => {
     apiClient
@@ -59,4 +60,17 @@ const getCategories = async (): Promise<Category[]> => {
   })
 }
 
-export { getProducts, postOrder, getCategories, getProduct }
+const validateVoucher = async (data: Voucher): Promise<Voucher> => {
+  return new Promise((resolve, reject) => {
+    apiClient
+      .post('/vouchers/validate', data)
+      .then((response) => {
+        resolve(response.data)
+      })
+      .catch((error) => {
+        reject(error)
+      })
+  })
+}
+
+export { getProducts, postOrder, getCategories, getProduct, validateVoucher }
