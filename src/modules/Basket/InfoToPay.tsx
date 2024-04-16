@@ -11,9 +11,9 @@ const InfoToPay: FC<Props> = ({ basketType }) => {
   const { totalPrice, totalWeight } = useBasketContext()
   const { voucherDataFromStorage: percentageFromStorage } =
     useVoucherFromStorage('discountPercentage', 0)
-  const price = (Number(totalPrice) / Number(percentageFromStorage)).toFixed(2)
+  const price = (Number(totalPrice) -  Number(totalPrice) * Number(percentageFromStorage)).toFixed(2)
   const discountSum = Number(
-    Number(price) * Number(percentageFromStorage),
+    Number(totalPrice) * Number(percentageFromStorage),
   ).toFixed(2)
   console.log(totalPrice)
   return (
@@ -30,7 +30,7 @@ const InfoToPay: FC<Props> = ({ basketType }) => {
             <Flex justify="space-between">
               <Text color="grey.200"> Price:</Text>
               <Text color="blue.200" fontWeight={600}>
-                {price} zl
+                {totalPrice} zl
               </Text>
             </Flex>
             <Flex justify="space-between">
@@ -44,7 +44,7 @@ const InfoToPay: FC<Props> = ({ basketType }) => {
         <Flex justify="space-between">
           <Text color="grey.200">Total price:</Text>
           <Text color="blue.200" fontWeight={600}>
-            {Number(totalPrice).toFixed(2)} zl
+            {Number(price).toFixed(2)} zl
           </Text>
         </Flex>
       </Flex>

@@ -37,7 +37,8 @@ const PaymentInfo = ({
   const [pay, setPay] = useState('cash')
   const [voucher, setVoucher] = useState<Voucher>({ voucherKey: '' })
   const { handleVoucher, isValid } = useVoucherMutation(voucher)
-
+  const [caution, setCaution] = useState(false)
+  // const [check, setCheck] = useState(false)
   const { voucherDataFromStorage: isVoucherValid } = useVoucherFromStorage(
     'isVoucherValid',
     false,
@@ -48,11 +49,15 @@ const PaymentInfo = ({
     setSelectedBasketType,
   })
 
+
+
   const { voucherDataFromStorage: voucherCodeFromStorage } =
     useVoucherFromStorage('voucherCode', '')
 
   const handleSubmitVoucher = () => {
-    handleVoucher()
+    
+    handleVoucher();
+  if(!isVoucherValid ){setCaution(true)}else{setCaution(false)}
   }
 
   const handleCloseBasket = () => {
@@ -68,9 +73,6 @@ const PaymentInfo = ({
   } else {
       orderData.paymentType = PaymentType.terminal;
 }
-
-
-console.log(orderData)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pay]);
 
@@ -81,9 +83,14 @@ useEffect(() => {
 }, [voucher]);
 
 
+useEffect(() => {
+  if(isVoucherValid){setCaution(false)} 
+
+}, [isVoucherValid]);
 
   return (
     <>
+    {console.log('caution ', caution)}
       <DrawerHeader
         display="flex"
         justifyContent="space-between"
@@ -129,7 +136,11 @@ useEffect(() => {
             >
               {isValid || isVoucherValid ? 'Applied' : 'Apply'}
             </Button>
-          </Flex>
+            
+          </Flex>{
+          caution ?  (<Text fontSize={12} fontWeight={900} mb={5} color={'red'}>
+            Attention! Check your voucher token and try again!
+            </Text>) : null}
           <Box w="100%" h="1px" bg="grey" opacity={0.6} />
 
           <RadioGroup onChange={setPay}>
@@ -141,7 +152,7 @@ useEffect(() => {
                 <Radio value="terminal">Pay with terminal</Radio>
               </Stack>
             </RadioGroup>
-
+            <Box w="100%" h="1px" bg="grey" opacity={0.6} />
           <InfoToPay basketType="paymentInfo" />
           <Button
             alignSelf="end"

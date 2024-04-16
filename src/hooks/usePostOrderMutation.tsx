@@ -1,7 +1,7 @@
 import { useBasketDispatchContext } from 'contexts/BasketContext'
 import { BasketTypes, Order } from 'types'
 import usePostOrder from './usePostOrder'
-
+import { useAdditionalProductsContext } from 'contexts/BasketContext'
 
 interface Props {
   orderData: Order
@@ -12,6 +12,7 @@ interface Props {
 const usePostOrderMutation = ({orderData, setOrderNumber, setSelectedBasketType}: Props) => {
   const { clearAll } = useBasketDispatchContext()
   const postOrderMutation = usePostOrder()
+  const { setAdditionalProductsCount } = useAdditionalProductsContext()
   
   const handleSubmitOrder = () => {
     postOrderMutation
@@ -23,6 +24,8 @@ const usePostOrderMutation = ({orderData, setOrderNumber, setSelectedBasketType}
           localStorage.removeItem('discountPercentage')
           localStorage.removeItem('voucherCode')
           localStorage.removeItem('isVoucherValid')
+          setAdditionalProductsCount('personCount',  1)
+          setAdditionalProductsCount('sticks',  0)
           setSelectedBasketType('confirmation')
         }
       })
