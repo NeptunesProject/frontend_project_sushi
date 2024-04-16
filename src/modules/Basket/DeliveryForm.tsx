@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+
+import React, { useState, useEffect } from 'react'
 import {
   Box,
   Button,
@@ -30,7 +31,8 @@ interface Props {
 const DeliveryForm = ({ setSelectedBasketType, setOrderData }: Props) => {
   const [name, setName] = useState('')
   const [phoneNumber, setPhoneNumber] = useState('')
-  const [deliveryType, setDeliveryType] = useState('self')
+  const [deliveryType, setDeliveryType] = useState(DeliveryType.pickup)
+  const [deli, setDeli] = useState('self')
   const [street, setStreet] = useState('')
   const { products } = useBasketContext()
   const cartItems = getCartItems(products)
@@ -52,14 +54,19 @@ const DeliveryForm = ({ setSelectedBasketType, setOrderData }: Props) => {
     sticksCount,
     studySticksCount: sticks,
     cartItems,
-    deliveryType: DeliveryType.delivery,
-    paymentType: PaymentType.online,
+    deliveryType: deliveryType,
+    paymentType: PaymentType.online
   }
 
   const handleDeliveryForm = () => {
     setOrderData(orderData)
     setSelectedBasketType('paymentInfo')
   }
+  useEffect(() => 
+    {setDeliveryType(deli === 'delivery' ? DeliveryType.delivery : DeliveryType.pickup);
+  console.log(deli, orderData.deliveryType)}
+// eslint-disable-next-line react-hooks/exhaustive-deps
+, [deli]);
 
   return (
     <>
@@ -102,7 +109,7 @@ const DeliveryForm = ({ setSelectedBasketType, setOrderData }: Props) => {
                 type="number"
                 placeholder="phone number"
               />
-              {deliveryType === 'delivery' && (
+              {deli === 'delivery'  && (
                 <Input
                   value={street}
                   onInput={(e) =>
@@ -114,14 +121,14 @@ const DeliveryForm = ({ setSelectedBasketType, setOrderData }: Props) => {
               )}
             </Flex>
 
-            <RadioGroup onChange={setDeliveryType}>
+            <RadioGroup onChange={setDeli}>
               {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
               {/* @ts-expect-error */}
-              <Stack direction="column" value={deliveryType}>
-                <Radio defaultChecked value="self">
+              <Stack direction="column" value={deli}>
+                <Radio defaultChecked value={'self'}>
                   Self pick-up
                 </Radio>
-                <Radio value="delivery">Delivery to address</Radio>
+                <Radio value= {'delivery'} >Delivery to address</Radio>
               </Stack>
             </RadioGroup>
           </Box>

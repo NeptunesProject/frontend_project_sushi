@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Box,
   Button,
@@ -6,13 +6,16 @@ import {
   DrawerCloseButton,
   DrawerHeader,
   Flex,
+  Radio,
+  RadioGroup,
   Input,
+  Stack,
   Text,
 } from '@chakra-ui/react'
 
 import InfoToPay from './InfoToPay'
 import { useBasketContext } from '../../contexts/BasketContext'
-import { BasketTypes, Order, Voucher } from 'types'
+import { BasketTypes, Order, PaymentType, Voucher } from 'types'
 
 import useVoucherFromStorage from 'hooks/useVoucherFromStorage'
 import { ArrowBackIcon } from '@chakra-ui/icons'
@@ -31,7 +34,7 @@ const PaymentInfo = ({
   setOrderNumber,
 }: Props) => {
   const { productsCount } = useBasketContext()
-
+  const [pay, setPay] = useState('cash')
   const [voucher, setVoucher] = useState<Voucher>({ voucherKey: '' })
   const { handleVoucher, isValid } = useVoucherMutation(voucher)
 
@@ -55,6 +58,29 @@ const PaymentInfo = ({
   const handleCloseBasket = () => {
     setSelectedBasketType('basket')
   }
+
+
+  useEffect(() => {
+    if (pay === 'online') {
+      orderData.paymentType = PaymentType.online;
+  } else if (pay === 'cash') {
+      orderData.paymentType = PaymentType.cash;
+  } else {
+      orderData.paymentType = PaymentType.terminal;
+}
+
+
+console.log(orderData)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pay]);
+
+
+useEffect(() => {
+  orderData.code = voucher.voucherKey
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, [voucher]);
+
+
 
   return (
     <>
@@ -105,6 +131,17 @@ const PaymentInfo = ({
             </Button>
           </Flex>
           <Box w="100%" h="1px" bg="grey" opacity={0.6} />
+
+          <RadioGroup onChange={setPay}>
+              {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+              {/* @ts-expect-error */}
+              <Stack direction="column" value={pay}>
+                <Radio defaultChecked value="online">Pay On-Line</Radio>
+                <Radio value="cash">Pay with Cash</Radio>            
+                <Radio value="terminal">Pay with terminal</Radio>
+              </Stack>
+            </RadioGroup>
+
           <InfoToPay basketType="paymentInfo" />
           <Button
             alignSelf="end"

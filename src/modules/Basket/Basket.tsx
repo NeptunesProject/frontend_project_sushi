@@ -67,6 +67,7 @@ const Basket = () => {
           </Center>
         ) : null}
       </Center>
+      {console.log(orderData)}
       <Drawer
         isOpen={isOpen}
         placement="right"
@@ -76,9 +77,11 @@ const Basket = () => {
         autoFocus={false}
         size="sm"
       >
+        
         <DrawerContent>
           {selectedBasketType === 'basket' && (
             <BasketType setSelectedBasketType={setSelectedBasketType} />
+            
           )}
           {selectedBasketType === 'delivery' && (
             <DeliveryForm
